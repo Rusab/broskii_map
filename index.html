@@ -137,8 +137,11 @@
 
         .image-gallery img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: auto;
+            min-height: 200px;
+            max-height: 400px;
+            object-fit: contain;
+            background: #f0f0f0;
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s;
@@ -159,8 +162,8 @@
 
         /* Custom marker styles */
         .custom-marker {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             border: 3px solid white;
             box-shadow: 0 3px 10px rgba(0,0,0,0.4);
@@ -178,26 +181,77 @@
 
         .marker-number {
             position: absolute;
-            bottom: -5px;
-            right: -5px;
+            bottom: -8px;
+            right: -8px;
             background: #667eea;
             color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
+            min-width: 32px;
+            height: 32px;
+            padding: 0 6px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            white-space: nowrap;
         }
 
         .marker-container {
             position: relative;
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
+        }
+
+        /* Multiple markers at same location */
+        .marker-cluster {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .marker-cluster .custom-marker {
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .marker-cluster.expanded .custom-marker {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .marker-cluster .custom-marker:nth-child(1) {
+            z-index: 3;
+        }
+
+        .marker-cluster .custom-marker:nth-child(2) {
+            z-index: 2;
+            transform: translate(10px, 10px);
+        }
+
+        .marker-cluster .custom-marker:nth-child(3) {
+            z-index: 1;
+            transform: translate(20px, 20px);
+        }
+
+        .marker-cluster.expanded .custom-marker:nth-child(1) {
+            transform: translate(-40px, -40px);
+        }
+
+        .marker-cluster.expanded .custom-marker:nth-child(2) {
+            transform: translate(40px, -40px);
+        }
+
+        .marker-cluster.expanded .custom-marker:nth-child(3) {
+            transform: translate(0px, 50px);
+        }
+
+        .marker-cluster.expanded .custom-marker:nth-child(4) {
+            transform: translate(-40px, 50px);
+        }
+
+        .marker-cluster.expanded .custom-marker:nth-child(5) {
+            transform: translate(40px, 50px);
         }
 
         /* Journey note popup */
@@ -250,14 +304,17 @@
         
         const memories = [
             {
-                number: -194,  // Custom number - can be any number you want!
-                location: "Curzon Hall",
-                lat: 23.727361,
-                lng: 90.401444,
-                date: "February 18, 2019",
-                images: ["images/-194.jpg"],
-                note: "One day you randomly wanted to take a selfie, but that's not where the journey began.",
-                journeyNote: "Some 194 days passed since that selfie." // Optional: note about the journey TO this place
+                number: 1,  // Custom number - can be any number you want!
+                location: "Dhanmondi Lake",
+                lat: 23.7461,
+                lng: 90.3742,
+                date: "January 15, 2024",
+                images: [
+                    "https://via.placeholder.com/400x300/FF6B9D/ffffff?text=Memory+1",
+                    "https://via.placeholder.com/400x300/C44569/ffffff?text=Memory+2"
+                ],
+                note: "Our first walk around the lake. Remember how we fed the ducks and you laughed when one chased me? That sunset was absolutely beautiful. This is where our adventure began! 🌅",
+                journeyNote: "The journey begins! We took a rickshaw from your place, excited for our first adventure together." // Optional: note about the journey TO this place
             },
             {
                 number: 50,  // Skip to 50!
@@ -333,7 +390,17 @@
 
         function createMarkersAndPath() {
             const pathCoordinates = [];
-            const pathSegments = []; // Store line segments for click handling
+            const pathSegments = [];
+            
+            // Group memories by location
+            const locationGroups = {};
+            memories.forEach((memory, index) => {
+                const key = `${memory.lat.toFixed(5)},${memory.lng.toFixed(5)}`;
+                if (!locationGroups[key]) {
+                    locationGroups[key] = [];
+                }
+                locationGroups[key].push({ memory, index });
+            });
 
             memories.forEach((memory, index) => {
                 const position = [memory.lat, memory.lng];
@@ -364,7 +431,6 @@
                                 .openOn(map);
                         });
 
-                        // Make cursor pointer on hover for segments with notes
                         segment.on('mouseover', function() {
                             this.setStyle({ weight: 5, opacity: 1 });
                         });
@@ -375,35 +441,96 @@
 
                     pathSegments.push(segment);
                 }
+            });
 
-                // Create custom marker HTML
-                const markerHTML = `
-                    <div class="marker-container">
-                        <img src="${memory.images[0]}" class="custom-marker" alt="${memory.location}">
-                        <div class="marker-number">${memory.number}</div>
-                    </div>
-                `;
+            // Create markers - grouped by location
+            Object.values(locationGroups).forEach(group => {
+                const position = [group[0].memory.lat, group[0].memory.lng];
+                
+                if (group.length === 1) {
+                    // Single marker at this location
+                    const memory = group[0].memory;
+                    const markerHTML = `
+                        <div class="marker-container">
+                            <img src="${memory.images[0]}" class="custom-marker" alt="${memory.location}">
+                            <div class="marker-number">${memory.number}</div>
+                        </div>
+                    `;
 
-                // Create custom icon
-                const customIcon = L.divIcon({
-                    html: markerHTML,
-                    className: 'custom-marker-wrapper',
-                    iconSize: [60, 60],
-                    iconAnchor: [30, 30]
-                });
+                    const customIcon = L.divIcon({
+                        html: markerHTML,
+                        className: 'custom-marker-wrapper',
+                        iconSize: [70, 70],
+                        iconAnchor: [35, 35]
+                    });
 
-                // Add marker to map
-                const marker = L.marker(position, { 
-                    icon: customIcon,
-                    title: memory.location
-                }).addTo(map);
+                    const marker = L.marker(position, { 
+                        icon: customIcon,
+                        title: memory.location
+                    }).addTo(map);
 
-                // Add click event
-                marker.on('click', () => {
-                    openModal(memory);
-                });
+                    marker.on('click', () => {
+                        openModal(memory);
+                    });
 
-                markers.push(marker);
+                    markers.push(marker);
+                } else {
+                    // Multiple markers at same location - create cluster
+                    let clusterHTML = '<div class="marker-cluster" id="cluster-' + position[0] + '-' + position[1] + '">';
+                    
+                    group.forEach((item, idx) => {
+                        const memory = item.memory;
+                        clusterHTML += `
+                            <div class="marker-container" data-memory-index="${item.index}">
+                                <img src="${memory.images[0]}" class="custom-marker" alt="${memory.location}">
+                                <div class="marker-number">${memory.number}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    clusterHTML += '</div>';
+
+                    const customIcon = L.divIcon({
+                        html: clusterHTML,
+                        className: 'custom-marker-wrapper',
+                        iconSize: [70, 70],
+                        iconAnchor: [35, 35]
+                    });
+
+                    const marker = L.marker(position, { 
+                        icon: customIcon,
+                        title: group[0].memory.location
+                    }).addTo(map);
+
+                    // Handle cluster clicks
+                    marker.on('click', (e) => {
+                        const clusterEl = e.target._icon.querySelector('.marker-cluster');
+                        const isExpanded = clusterEl.classList.contains('expanded');
+                        
+                        // Close all other expanded clusters
+                        document.querySelectorAll('.marker-cluster.expanded').forEach(el => {
+                            el.classList.remove('expanded');
+                        });
+                        
+                        if (!isExpanded) {
+                            clusterEl.classList.add('expanded');
+                            
+                            // Add click handlers to individual markers in cluster
+                            setTimeout(() => {
+                                clusterEl.querySelectorAll('.marker-container').forEach(markerDiv => {
+                                    markerDiv.onclick = (evt) => {
+                                        evt.stopPropagation();
+                                        const memoryIndex = parseInt(markerDiv.getAttribute('data-memory-index'));
+                                        openModal(memories[memoryIndex]);
+                                        clusterEl.classList.remove('expanded');
+                                    };
+                                });
+                            }, 50);
+                        }
+                    });
+
+                    markers.push(marker);
+                }
             });
 
             // Create decorator for arrows on the full path
@@ -412,7 +539,6 @@
                 weight: 0
             }).addTo(map);
 
-            // Add arrows to show direction
             const decorator = L.polylineDecorator(fullPath, {
                 patterns: [
                     {
