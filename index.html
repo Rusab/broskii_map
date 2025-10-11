@@ -199,6 +199,26 @@
             width: 60px;
             height: 60px;
         }
+
+        /* Journey note popup */
+        .journey-popup {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid #667eea;
+            max-width: 300px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .journey-popup-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -223,11 +243,6 @@
         </div>
     </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet Polyline Decorator for arrows -->
-    <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
-
     <script>
         // ============================================
         // CONFIGURATION SECTION - EDIT THIS PART
@@ -235,6 +250,7 @@
         
         const memories = [
             {
+                number: 1,  // Custom number - can be any number you want!
                 location: "Dhanmondi Lake",
                 lat: 23.7461,
                 lng: 90.3742,
@@ -243,9 +259,11 @@
                     "https://via.placeholder.com/400x300/FF6B9D/ffffff?text=Memory+1",
                     "https://via.placeholder.com/400x300/C44569/ffffff?text=Memory+2"
                 ],
-                note: "Our first walk around the lake. Remember how we fed the ducks and you laughed when one chased me? That sunset was absolutely beautiful. This is where our adventure began! 🌅"
+                note: "Our first walk around the lake. Remember how we fed the ducks and you laughed when one chased me? That sunset was absolutely beautiful. This is where our adventure began! 🌅",
+                journeyNote: "The journey begins! We took a rickshaw from your place, excited for our first adventure together." // Optional: note about the journey TO this place
             },
             {
+                number: 50,  // Skip to 50!
                 location: "Ahsan Manzil",
                 lat: 23.7082,
                 lng: 90.4064,
@@ -253,9 +271,11 @@
                 images: [
                     "https://via.placeholder.com/400x300/97C4B8/ffffff?text=Memory+3"
                 ],
-                note: "Exploring the Pink Palace together. You looked amazing standing on those stairs. We learned so much history and took way too many photos! 📸"
+                note: "Exploring the Pink Palace together. You looked amazing standing on those stairs. We learned so much history and took way too many photos! 📸",
+                journeyNote: "We got lost trying to find this place! Asked 3 different people for directions and ended up laughing the whole way. 😄"
             },
             {
+                number: 100,  // Jump to 100!
                 location: "Hatirjheel",
                 lat: 23.7525,
                 lng: 90.4104,
@@ -265,8 +285,10 @@
                     "https://via.placeholder.com/400x300/DDA15E/ffffff?text=Memory+5"
                 ],
                 note: "Evening boat ride under the city lights. The breeze was perfect, and so was the company. You made a wish on the bridge - I hope it comes true! 🚤✨"
+                // No journeyNote - this edge won't have a note!
             },
             {
+                number: 121,  // Custom number!
                 location: "Dhanmondi Lake",
                 lat: 23.7461,
                 lng: 90.3742,
@@ -274,9 +296,11 @@
                 images: [
                     "https://via.placeholder.com/400x300/BC6C25/ffffff?text=Memory+6"
                 ],
-                note: "We came back here! Sometimes you just need to revisit the places that mean something. Different season, same awesome friend. 🍃"
+                note: "We came back here! Sometimes you just need to revisit the places that mean something. Different season, same awesome friend. 🍃",
+                journeyNote: "Remember we decided to come back on a whim? Best spontaneous decision ever!"
             },
             {
+                number: 200,  // Even 200!
                 location: "Jamuna Future Park",
                 lat: 23.8103,
                 lng: 90.4225,
@@ -312,16 +336,54 @@
 
         function createMarkersAndPath() {
             const pathCoordinates = [];
+            const pathSegments = []; // Store line segments for click handling
 
             memories.forEach((memory, index) => {
                 const position = [memory.lat, memory.lng];
                 pathCoordinates.push(position);
 
+                // Create line segment if not the first point
+                if (index > 0) {
+                    const prevPosition = [memories[index - 1].lat, memories[index - 1].lng];
+                    const segment = L.polyline([prevPosition, position], {
+                        color: '#667eea',
+                        weight: 3,
+                        opacity: 0.8,
+                        smoothFactor: 1
+                    }).addTo(map);
+
+                    // Add click event if this memory has a journey note
+                    if (memory.journeyNote) {
+                        segment.on('click', function(e) {
+                            const popupContent = `
+                                <div class="journey-popup">
+                                    <div class="journey-popup-title">🚶 Journey: ${memories[index - 1].number} → ${memory.number}</div>
+                                    ${memory.journeyNote}
+                                </div>
+                            `;
+                            L.popup()
+                                .setLatLng(e.latlng)
+                                .setContent(popupContent)
+                                .openOn(map);
+                        });
+
+                        // Make cursor pointer on hover for segments with notes
+                        segment.on('mouseover', function() {
+                            this.setStyle({ weight: 5, opacity: 1 });
+                        });
+                        segment.on('mouseout', function() {
+                            this.setStyle({ weight: 3, opacity: 0.8 });
+                        });
+                    }
+
+                    pathSegments.push(segment);
+                }
+
                 // Create custom marker HTML
                 const markerHTML = `
                     <div class="marker-container">
                         <img src="${memory.images[0]}" class="custom-marker" alt="${memory.location}">
-                        <div class="marker-number">${index + 1}</div>
+                        <div class="marker-number">${memory.number}</div>
                     </div>
                 `;
 
@@ -347,16 +409,14 @@
                 markers.push(marker);
             });
 
-            // Create polyline connecting all points
-            const polyline = L.polyline(pathCoordinates, {
-                color: '#667eea',
-                weight: 3,
-                opacity: 0.8,
-                smoothFactor: 1
+            // Create decorator for arrows on the full path
+            const fullPath = L.polyline(pathCoordinates, {
+                color: 'transparent',
+                weight: 0
             }).addTo(map);
 
             // Add arrows to show direction
-            const decorator = L.polylineDecorator(polyline, {
+            const decorator = L.polylineDecorator(fullPath, {
                 patterns: [
                     {
                         offset: '10%',
@@ -376,7 +436,9 @@
             }).addTo(map);
 
             // Fit map to show all markers
-            map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
+            if (pathCoordinates.length > 0) {
+                map.fitBounds(pathCoordinates, { padding: [50, 50] });
+            }
         }
 
         function openModal(memory) {
