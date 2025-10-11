@@ -8,6 +8,11 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
+    <!-- Leaflet JS - Load synchronously -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Polyline Decorator for arrows -->
+    <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -220,6 +225,8 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Polyline Decorator for arrows -->
+    <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
 
     <script>
         // ============================================
@@ -228,14 +235,15 @@
         
         const memories = [
             {
-                location: "Curzon Hall",
-                lat: 23.727361,
-                lng: 90.401444,
-                date: "February 18, 2019",
+                location: "Dhanmondi Lake",
+                lat: 23.7461,
+                lng: 90.3742,
+                date: "January 15, 2024",
                 images: [
-                    "c:\Users\Rusab\Downloads\photos_map\IMG_20190218_123918.jpg",
+                    "https://via.placeholder.com/400x300/FF6B9D/ffffff?text=Memory+1",
+                    "https://via.placeholder.com/400x300/C44569/ffffff?text=Memory+2"
                 ],
-                note: "First time you randomly wanted to take a selfie. After 2nd year's Class party"
+                note: "Our first walk around the lake. Remember how we fed the ducks and you laughed when one chased me? That sunset was absolutely beautiful. This is where our adventure began! 🌅"
             },
             {
                 location: "Ahsan Manzil",
@@ -274,7 +282,7 @@
                 lng: 90.4225,
                 date: "May 5, 2024",
                 images: [
-                    "c:\Users\Rusab\Downloads\photos_map\IMG_20190218_123918.jpg",
+                    "https://via.placeholder.com/400x300/6A994E/ffffff?text=Memory+7",
                     "https://via.placeholder.com/400x300/A7C957/ffffff?text=Memory+8",
                     "https://via.placeholder.com/400x300/F2E8CF/ffffff?text=Memory+9"
                 ],
@@ -294,10 +302,11 @@
             map = L.map('map').setView([23.8103, 90.4125], 12);
 
             // Add CartoDB map tiles (English labels, clean design)
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '© OpenStreetMap contributors © CARTO',
                 maxZoom: 19
             }).addTo(map);
+
             createMarkersAndPath();
         }
 
@@ -344,6 +353,26 @@
                 weight: 3,
                 opacity: 0.8,
                 smoothFactor: 1
+            }).addTo(map);
+
+            // Add arrows to show direction
+            const decorator = L.polylineDecorator(polyline, {
+                patterns: [
+                    {
+                        offset: '10%',
+                        repeat: '15%',
+                        symbol: L.Symbol.arrowHead({
+                            pixelSize: 12,
+                            polygon: false,
+                            pathOptions: {
+                                stroke: true,
+                                color: '#667eea',
+                                weight: 3,
+                                opacity: 0.9
+                            }
+                        })
+                    }
+                ]
             }).addTo(map);
 
             // Fit map to show all markers
