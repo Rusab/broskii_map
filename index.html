@@ -277,7 +277,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>🌟 Our Journey Through Dhaka 🌟</h1>
+        <h1>A Map of Moments</h1>
     </div>
 
     <div id="map"></div>
@@ -310,58 +310,60 @@
                     lng: 90.401444,
                     date: "February 18, 2019",
                     images: ["images/-194.jpg"],
-                    note: "First visit"
+                    note: "The journey didn't start here, when you randomly wanted to take a selfie",
+                    
                 },
             {
-                number: 50,  // Skip to 50!
-                location: "Ahsan Manzil",
-                lat: 23.7082,
-                lng: 90.4064,
-                date: "February 3, 2024",
-                images: [
-                    "https://via.placeholder.com/400x300/97C4B8/ffffff?text=Memory+3"
-                ],
-                note: "Exploring the Pink Palace together. You looked amazing standing on those stairs. We learned so much history and took way too many photos! 📸",
-                journeyNote: "We got lost trying to find this place! Asked 3 different people for directions and ended up laughing the whole way. 😄"
+                number: 1,  // Skip to 50!
+                location: "Crimson Cup",
+                lat: 23.738824, 
+                lng: 90.378759,
+                date: "August 31, 2019",
+                images: ["images/0.jpg"],
+                note: "Everyone canceled, except us. And that's where the journey began. We sat in crimson cup for an hour after the movie, because you had to pick Urbi from college. We talked about entropy and random stuff. I took a random photo and sent mehrin. Mehrin said Me Crimson cup and you were two things she never thought would collide.",
+                journeyNote: "194 days passed since this selfie. On one random day, you decided to ask me to go on a hangout with you guys. And on an eventual hangout all of us decided to go watch Spider Man: Far from home."
+            },
+
+            {
+                number: 27,
+                location: "Pizza Burg",
+                lat: 23.747459,
+                lng:  90.370319,
+                date: "September 26, 2019",
+                images: ["images/27.jpg"],
+                note: "Everyone went to pizza burg",
+                
             },
             {
-                number: 100,  // Jump to 100!
-                location: "Hatirjheel",
-                lat: 23.7525,
-                lng: 90.4104,
-                date: "March 20, 2024",
-                images: [
-                    "https://via.placeholder.com/400x300/FFB6C1/ffffff?text=Memory+4",
-                    "https://via.placeholder.com/400x300/DDA15E/ffffff?text=Memory+5"
-                ],
-                note: "Evening boat ride under the city lights. The breeze was perfect, and so was the company. You made a wish on the bridge - I hope it comes true! 🚤✨"
-                // No journeyNote - this edge won't have a note!
-            },
+                    number: -194,
+                    location: "Curzon Hall",
+                    lat: 23.727361,
+                    lng: 90.401444,
+                    date: "Oct 1, 2019",
+                    images: ["images/32.jpg"],
+                    note: "The journey didn't start here, when you randomly wanted to take a selfie",
+                    
+                },
             {
-                number: 121,  // Custom number!
-                location: "Dhanmondi Lake",
-                lat: 23.7461,
-                lng: 90.3742,
-                date: "April 10, 2024",
-                images: [
-                    "https://via.placeholder.com/400x300/BC6C25/ffffff?text=Memory+6"
-                ],
-                note: "We came back here! Sometimes you just need to revisit the places that mean something. Different season, same awesome friend. 🍃",
-                journeyNote: "Remember we decided to come back on a whim? Best spontaneous decision ever!"
-            },
+                    number: 50,
+                    location: "TSC",
+                    lat: 23.731748, 
+                    lng: 90.395574,
+                    date: "Oct 19, 2019",
+                    images: ["images/50.jpg"],
+                    note: "First time I celebrated your birthday. Gave you a earphone, probably the first gift I ever gave you.",
+                    
+                },
             {
-                number: 200,  // Even 200!
-                location: "Jamuna Future Park",
-                lat: 23.8103,
-                lng: 90.4225,
-                date: "May 5, 2024",
-                images: [
-                    "https://via.placeholder.com/400x300/6A994E/ffffff?text=Memory+7",
-                    "https://via.placeholder.com/400x300/A7C957/ffffff?text=Memory+8",
-                    "https://via.placeholder.com/400x300/F2E8CF/ffffff?text=Memory+9"
-                ],
-                note: "Shopping spree and food court adventures! We tried that new cafe you'd been wanting to visit. Your laugh echoed through the whole mall when we got lost trying to find the exit. 🛍️😄"
-            }
+                    number: 74,
+                    location: "Second Cup",
+                    lat: 23.747519, 
+                    lng: 90.365398,
+                    date: "Oct 19, 2019",
+                    images: ["images/74.jpg"],
+                    note: "The day you lost your earphone.",
+                    
+                },
         ];
 
         // ============================================
@@ -387,6 +389,7 @@
         function createMarkersAndPath() {
             const pathCoordinates = [];
             const pathSegments = [];
+            const segmentsWithNotes = []; // Track which segments have notes
             
             // Group memories by location
             const locationGroups = {};
@@ -405,9 +408,11 @@
                 // Create line segment if not the first point
                 if (index > 0) {
                     const prevPosition = [memories[index - 1].lat, memories[index - 1].lng];
+                    const hasNote = memory.journeyNote ? true : false;
+                    
                     const segment = L.polyline([prevPosition, position], {
-                        color: '#667eea',
-                        weight: 3,
+                        color: hasNote ? '#ff6b9d' : '#667eea', // Pink if has note, purple otherwise
+                        weight: hasNote ? 4 : 3,
                         opacity: 0.8,
                         smoothFactor: 1
                     }).addTo(map);
@@ -428,11 +433,13 @@
                         });
 
                         segment.on('mouseover', function() {
-                            this.setStyle({ weight: 5, opacity: 1 });
+                            this.setStyle({ weight: 6, opacity: 1 });
                         });
                         segment.on('mouseout', function() {
-                            this.setStyle({ weight: 3, opacity: 0.8 });
+                            this.setStyle({ weight: 4, opacity: 0.8 });
                         });
+                        
+                        segmentsWithNotes.push({ start: index - 1, end: index });
                     }
 
                     pathSegments.push(segment);
@@ -529,30 +536,35 @@
                 }
             });
 
-            // Create decorator for arrows on the full path
-            const fullPath = L.polyline(pathCoordinates, {
-                color: 'transparent',
-                weight: 0
-            }).addTo(map);
+            // Create arrows - different colors for segments with notes
+            pathCoordinates.forEach((coord, index) => {
+                if (index > 0) {
+                    const hasNote = segmentsWithNotes.some(seg => seg.start === index - 1 && seg.end === index);
+                    const segmentPath = L.polyline([pathCoordinates[index - 1], coord], {
+                        color: 'transparent',
+                        weight: 0
+                    }).addTo(map);
 
-            const decorator = L.polylineDecorator(fullPath, {
-                patterns: [
-                    {
-                        offset: '10%',
-                        repeat: '15%',
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 12,
-                            polygon: false,
-                            pathOptions: {
-                                stroke: true,
-                                color: '#667eea',
-                                weight: 3,
-                                opacity: 0.9
+                    const decorator = L.polylineDecorator(segmentPath, {
+                        patterns: [
+                            {
+                                offset: '50%',
+                                repeat: 0,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 14,
+                                    polygon: false,
+                                    pathOptions: {
+                                        stroke: true,
+                                        color: hasNote ? '#ff6b9d' : '#667eea', // Pink if has note
+                                        weight: 3,
+                                        opacity: 0.9
+                                    }
+                                })
                             }
-                        })
-                    }
-                ]
-            }).addTo(map);
+                        ]
+                    }).addTo(map);
+                }
+            });
 
             // Fit map to show all markers
             if (pathCoordinates.length > 0) {
