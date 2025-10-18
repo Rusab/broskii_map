@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A map of memories</title>
+    <title>A map of memories 🐱</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -25,6 +25,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
+            background: linear-gradient(135deg, #ffeef8 0%, #e0f4ff 100%);
         }
 
         #map {
@@ -38,16 +39,83 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            background: white;
+            background: linear-gradient(135deg, #fff5f7, #f0f8ff);
             padding: 15px 30px;
             border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(255,182,193,0.3);
+            border: 3px solid rgba(255,192,203,0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
         }
 
         .header h1 {
             font-size: 24px;
-            color: #667eea;
+            background: linear-gradient(135deg, #ff6b9d, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1::before,
+        .header h1::after {
+            content: '🐱';
+            font-size: 28px;
+            -webkit-text-fill-color: initial;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Falling Cats Animation */
+        .falling-cat {
+            position: fixed;
+            font-size: 30px;
+            z-index: 999;
+            pointer-events: none;
+            animation: fall linear forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Paw Print Trail */
+        .paw-print {
+            position: fixed;
+            font-size: 20px;
+            z-index: 998;
+            pointer-events: none;
+            animation: fadePaw 2s ease-out forwards;
+        }
+
+        @keyframes fadePaw {
+            0% {
+                opacity: 0.7;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1) rotate(20deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) rotate(40deg);
+            }
         }
 
         /* Control Panel */
@@ -57,54 +125,105 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            background: white;
+            background: linear-gradient(135deg, #fff5f7, #f0f8ff);
             padding: 20px 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(255,182,193,0.4);
             display: flex;
             gap: 15px;
             align-items: center;
+            border: 3px solid rgba(255,192,203,0.3);
         }
 
         .control-btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
             color: white;
+            box-shadow: 0 4px 12px rgba(255,107,157,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .control-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,107,157,0.5);
+        }
+
+        .control-btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         .control-btn:disabled {
-            background: #ccc;
+            background: linear-gradient(135deg, #ddd, #ccc);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .control-btn.secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.3);
         }
 
         .control-btn.secondary:hover {
-            background: #f8f9ff;
+            box-shadow: 0 6px 20px rgba(102,126,234,0.5);
         }
 
         .progress-info {
-            font-size: 16px;
-            color: #667eea;
-            font-weight: 600;
+            font-size: 18px;
+            background: linear-gradient(135deg, #ff6b9d, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
             min-width: 120px;
             text-align: center;
+            position: relative;
+        }
+
+        .progress-info::before {
+            content: '🐾';
+            position: absolute;
+            left: -25px;
+            -webkit-text-fill-color: initial;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        .progress-info::after {
+            content: '🐾';
+            position: absolute;
+            right: -25px;
+            -webkit-text-fill-color: initial;
+            animation: bounce 1s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         /* Modal Styles */
@@ -127,16 +246,17 @@
 
         .modal-content {
             position: relative;
-            background-color: white;
+            background: linear-gradient(135deg, #fff5f7, #f0f8ff);
             margin: 3% auto;
             padding: 0;
             width: 90%;
             max-width: 800px;
             max-height: 90vh;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 30px rgba(255,107,157,0.3);
             animation: slideIn 0.4s;
+            border: 3px solid rgba(255,192,203,0.3);
         }
 
         @keyframes slideIn {
@@ -151,19 +271,40 @@
         }
 
         .modal-header {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #ff6b9d, #667eea);
             color: white;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '🐱';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.1;
+            right: -20px;
+            top: -20px;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .modal-header h2 {
             font-size: 24px;
             margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
         }
 
         .modal-header .date {
             font-size: 14px;
             opacity: 0.9;
+            position: relative;
+            z-index: 1;
         }
 
         .close {
@@ -174,11 +315,12 @@
             font-size: 35px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 1;
+            z-index: 2;
+            transition: transform 0.3s;
         }
 
         .close:hover {
-            opacity: 0.8;
+            transform: rotate(90deg) scale(1.2);
         }
 
         .modal-body {
@@ -200,44 +342,55 @@
             min-height: 200px;
             max-height: 400px;
             object-fit: contain;
-            background: #f0f0f0;
-            border-radius: 10px;
+            background: white;
+            border-radius: 15px;
             cursor: pointer;
             transition: transform 0.3s;
+            box-shadow: 0 4px 12px rgba(255,107,157,0.2);
+            border: 3px solid rgba(255,192,203,0.3);
         }
 
         .image-gallery img:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 8px 20px rgba(255,107,157,0.4);
         }
 
         .memory-note {
-            background: #f8f9fa;
+            background: white;
             padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-radius: 15px;
+            border-left: 5px solid #ff6b9d;
             line-height: 1.6;
             color: #333;
+            box-shadow: 0 4px 12px rgba(255,107,157,0.1);
+            position: relative;
         }
 
-        /* FIX: Force marker wrapper to fixed size */
-        .custom-marker-wrapper {
-            width: 70px !important;
-            height: 70px !important;
-            /* Prevent any scaling transformations */
-        }
-
-        .custom-marker-wrapper * {
-            /* Prevent child elements from inheriting any zoom scaling */
-            zoom: 1 !important;
+        .memory-note::before {
+            content: '💭';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            opacity: 0.3;
         }
 
         /* Custom marker styles */
+        .custom-marker-wrapper {
+            width: 70px !important;
+            height: 70px !important;
+        }
+
+        .custom-marker-wrapper * {
+            zoom: 1 !important;
+        }
+
         .custom-marker {
             width: 70px !important;
             height: 70px !important;
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+            border: 4px solid #ff6b9d;
+            box-shadow: 0 4px 15px rgba(255,107,157,0.5);
             cursor: pointer;
             position: relative;
             transition: transform 0.2s;
@@ -248,13 +401,15 @@
         .custom-marker:hover {
             transform: scale(1.15) !important;
             z-index: 1000 !important;
+            box-shadow: 0 6px 20px rgba(255,107,157,0.7);
+            border-color: #667eea;
         }
 
         .marker-number {
             position: absolute;
             bottom: -8px;
             right: -8px;
-            background: #667eea;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
             color: white;
             min-width: 32px;
             height: 32px;
@@ -265,8 +420,8 @@
             justify-content: center;
             font-size: 12px !important;
             font-weight: bold;
-            border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 3px solid white;
+            box-shadow: 0 3px 8px rgba(255,107,157,0.4);
             white-space: nowrap;
         }
 
@@ -351,7 +506,7 @@
             position: absolute;
             top: -5px;
             left: -5px;
-            background: #ff6b9d;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             min-width: 24px !important;
             height: 24px !important;
@@ -363,9 +518,15 @@
             font-size: 11px !important;
             font-weight: bold;
             border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(102,126,234,0.4);
             z-index: 100;
             pointer-events: none;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .marker-stack.expanded .stack-count {
@@ -373,22 +534,76 @@
         }
 
         .journey-popup {
-            background: white;
+            background: linear-gradient(135deg, #fff5f7, #f0f8ff);
             padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-left: 4px solid #667eea;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(255,107,157,0.3);
+            border-left: 5px solid #ff6b9d;
             max-width: 300px;
             font-size: 14px;
             line-height: 1.5;
             color: #333;
+            border: 2px solid rgba(255,192,203,0.3);
         }
 
         .journey-popup-title {
             font-weight: bold;
-            color: #667eea;
+            background: linear-gradient(135deg, #ff6b9d, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 8px;
             font-size: 13px;
+        }
+
+        /* Cat Button - Floating Action Button */
+        .cat-button {
+            position: fixed;
+            bottom: 150px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,107,157,0.4);
+            z-index: 1001;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cat-button:hover {
+            transform: scale(1.2) rotate(10deg);
+            box-shadow: 0 6px 25px rgba(255,107,157,0.6);
+        }
+
+        .cat-button:active {
+            transform: scale(0.9);
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 997;
+            animation: sparkleFloat 1s ease-out forwards;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-30px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0);
+            }
         }
     </style>
 </head>
@@ -406,6 +621,9 @@
         <button id="nextBtn" class="control-btn">Next →</button>
         <button id="viewAllBtn" class="control-btn secondary">View All</button>
     </div>
+
+    <!-- Cat Button -->
+    <button class="cat-button" id="catButton" title="Make it rain cats! 🐱">🐱</button>
 
     <!-- Modal -->
     <div id="memoryModal" class="modal">
@@ -430,6 +648,10 @@
         let currentExpandedStack = null;
         let currentIndex = 0;
         let isSequentialMode = true;
+        let catRainActive = false;
+
+        const catEmojis = ['🐱', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾', '🐈', '🐈‍⬛'];
+        const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '🌠', '💖', '💕', '💗', '🎀'];
 
         function initMap() {
             map = L.map('map').setView([23.8103, 90.4125], 12);
@@ -442,7 +664,85 @@
             // Start in sequential mode
             showSequentialView();
             updateControls();
+
+            // Start automatic paw prints
+            setInterval(createRandomPawPrint, 2000);
         }
+
+        function createFallingCat() {
+            const cat = document.createElement('div');
+            cat.className = 'falling-cat';
+            cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+            cat.style.left = Math.random() * window.innerWidth + 'px';
+            cat.style.top = '-50px';
+            
+            const duration = 3 + Math.random() * 3;
+            cat.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(cat);
+            
+            setTimeout(() => {
+                cat.remove();
+            }, duration * 1000);
+        }
+
+        function createRandomPawPrint() {
+            const paw = document.createElement('div');
+            paw.className = 'paw-print';
+            paw.textContent = '🐾';
+            paw.style.left = Math.random() * window.innerWidth + 'px';
+            paw.style.top = Math.random() * window.innerHeight + 'px';
+            
+            document.body.appendChild(paw);
+            
+            setTimeout(() => {
+                paw.remove();
+            }, 2000);
+        }
+
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = (15 + Math.random() * 15) + 'px';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+
+        function toggleCatRain() {
+            catRainActive = !catRainActive;
+            
+            if (catRainActive) {
+                const interval = setInterval(() => {
+                    if (!catRainActive) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    createFallingCat();
+                }, 300);
+                
+                setTimeout(() => {
+                    catRainActive = false;
+                }, 5000);
+            }
+        }
+
+        // Cat button event
+        document.getElementById('catButton').addEventListener('click', function(e) {
+            toggleCatRain();
+            createSparkle(e.clientX, e.clientY);
+            
+            // Bonus paw prints on click
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createRandomPawPrint(), i * 100);
+            }
+        });
 
         function showSequentialView() {
             isSequentialMode = true;
@@ -460,15 +760,10 @@
         }
 
         function clearMap() {
-            // Remove all markers
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
-
-            // Remove all path segments
             pathSegments.forEach(segment => map.removeLayer(segment));
             pathSegments = [];
-
-            // Remove all decorators
             decorators.forEach(decorator => map.removeLayer(decorator));
             decorators = [];
         }
@@ -478,10 +773,19 @@
             const memoriesToShow = memories.slice(0, index + 1);
             createMarkersAndPath(memoriesToShow);
 
-            // Fit bounds to show all displayed points
             if (memoriesToShow.length > 0) {
                 const bounds = memoriesToShow.map(m => [m.lat, m.lng]);
                 map.fitBounds(bounds, { padding: [100, 100] });
+            }
+            
+            // Celebration sparkles on navigation
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }, i * 100);
             }
         }
 
@@ -526,7 +830,6 @@
         function createMarkersAndPath(memoriesToRender) {
             const pathCoordinates = [];
             
-            // Group memories by location
             const locationGroups = {};
             memoriesToRender.forEach((memory, index) => {
                 const key = `${memory.lat.toFixed(5)},${memory.lng.toFixed(5)}`;
@@ -540,7 +843,6 @@
                 const position = [memory.lat, memory.lng];
                 pathCoordinates.push(position);
 
-                // Create line segment if not the first point
                 if (index > 0) {
                     const prevPosition = [memoriesToRender[index - 1].lat, memoriesToRender[index - 1].lng];
                     const hasNote = memory.journeyNote ? true : false;
@@ -576,7 +878,6 @@
 
                     pathSegments.push(segment);
 
-                    // Create arrow
                     const segmentPath = L.polyline([prevPosition, position], {
                         color: 'transparent',
                         weight: 0
@@ -605,7 +906,6 @@
                 }
             });
 
-            // Create markers - grouped by location
             Object.values(locationGroups).forEach(group => {
                 const position = [group[0].memory.lat, group[0].memory.lng];
                 
@@ -632,11 +932,14 @@
 
                     marker.on('click', () => {
                         openModal(memory);
+                        // Sparkles on marker click
+                        for (let i = 0; i < 5; i++) {
+                            setTimeout(() => createRandomPawPrint(), i * 50);
+                        }
                     });
 
                     markers.push(marker);
                 } else {
-                    // Multiple markers at same location - create STACK
                     const stackId = 'stack-' + position[0].toFixed(5) + '-' + position[1].toFixed(5) + '-' + Date.now();
                     let stackHTML = `<div class="marker-stack" id="${stackId}">`;
                     stackHTML += `<div class="stack-count">${group.length}</div>`;
@@ -683,6 +986,10 @@
                                 if (!isExpanded) {
                                     stackEl.classList.add('expanded');
                                     currentExpandedStack = stackEl;
+                                    // Sparkles on expand
+                                    for (let i = 0; i < 8; i++) {
+                                        setTimeout(() => createRandomPawPrint(), i * 50);
+                                    }
                                 } else {
                                     stackEl.classList.remove('expanded');
                                     currentExpandedStack = null;
@@ -695,6 +1002,10 @@
                                         evt.stopPropagation();
                                         const memoryIndex = parseInt(markerDiv.getAttribute('data-memory-index'));
                                         openModal(memoriesToRender[memoryIndex]);
+                                        // Extra sparkles on individual marker click
+                                        for (let i = 0; i < 5; i++) {
+                                            setTimeout(() => createRandomPawPrint(), i * 50);
+                                        }
                                     }
                                 });
                             });
@@ -739,6 +1050,16 @@
                 currentExpandedStack.classList.remove('expanded');
                 currentExpandedStack = null;
             }
+
+            // Modal open celebration
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createSparkle(
+                        Math.random() * window.innerWidth,
+                        window.innerHeight * 0.3 + Math.random() * window.innerHeight * 0.4
+                    );
+                }, i * 80);
+            }
         }
 
         // Event Listeners
@@ -747,6 +1068,16 @@
         document.getElementById('viewAllBtn').addEventListener('click', () => {
             if (isSequentialMode) {
                 showAllView();
+                // Big celebration for view all
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        createSparkle(
+                            Math.random() * window.innerWidth,
+                            Math.random() * window.innerHeight
+                        );
+                        createRandomPawPrint();
+                    }, i * 60);
+                }
             } else {
                 showSequentialView();
             }
@@ -771,6 +1102,30 @@
                 } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
                     previousMemory();
                 }
+            }
+            
+            // Secret: Press C for cat rain!
+            if (e.key === 'c' || e.key === 'C') {
+                toggleCatRain();
+            }
+        });
+
+        // Add sparkles on mouse movement (throttled)
+        let lastSparkleTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastSparkleTime > 500) {
+                if (Math.random() > 0.7) {
+                    createSparkle(e.clientX, e.clientY);
+                }
+                lastSparkleTime = now;
+            }
+        });
+
+        // Add click sparkles anywhere
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('.modal')) {
+                createSparkle(e.clientX, e.clientY);
             }
         });
 
