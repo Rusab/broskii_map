@@ -631,4 +631,616 @@ const memories = [
         note: "Fuad bhai and Topa's Engagement.",
     },
 
+        {
+        number: 1050,
+        location: "Secret Recipe",
+        lat: 23.742007,
+        lng: 90.410006,
+        date: "July 16, 2022",
+        images: ["images/1050.jpg"],
+        note: "We went to Aarong, this is the day you I bought you the black bracelets and beai got his cup holder. Then we went to secret recipe for drinks and desserts.",
+    },
+
+    {
+        number: 1053,
+        location: "Alfresco",
+        lat: 23.753053,
+        lng: 90.369357,
+        date: "July 19, 2022",
+        images: ["images/1053.jpg"],
+        note: "Fuad bhai's treat",
+    },
+
+        {
+        number: 1057,
+        location: "Shimanto Shambhar",
+        lat: 23.73721,
+        lng: 90.377516,
+        date: "July 23, 2022",
+        images: ["images/1057.jpg"],
+        note: "Everyone went to watch Jujutsu Kaisen Zero",
+    },
+
+        {
+        number: 1064,
+        location: "Lonestar Steakhouse",
+        lat: 23.746744,
+        lng: 90.37131,
+        date: "July 30, 2022",
+        images: ["images/1064.jpg"],
+        note: "We had Brisket with Fuad bhai and gave him a Kunai",
+    },
+
+        {
+        number: 1071,
+        location: "Chef's Table",
+        lat: 23.744516,
+        lng: 90.372692,
+        date: "August 6, 2022",
+        images: ["images/1071.jpg"],
+        note: "We met Shreya and Niloy at Chef's Table.",
+    },
+
+       {   
+        number: 1071,
+        location: "Second Cup",
+        lat: 23.747448, 
+        lng: 90.369940,
+        date: "August 6, 2022",
+        images: ["images/1071-2.jpg"],
+        note: "It Anika joined at Second Cup.",
+    },
+    {
+        number: 1075,
+        location: "Soi3",
+        lat: 23.746815,
+        lng: 90.370744,
+        date: "August 10, 2022",
+        images: ["images/1075.jpg"],
+        note: "Wee shungs at Soi3",
+    },
+
+        {
+        number: 1096,
+        location: "Crimson Cup",
+        lat: 23.738855,
+        lng: 90.378804,
+        date: "August 31, 2022",
+        images: ["images/1096.jpg"],
+        note: "2 Years shungs. This is when you gave me jett and the midjourney art cadbury",
+    },
+
+           {   
+        number: 1101,
+        location: "Second Cup",
+        lat: 23.747448, 
+        lng: 90.369940,
+        date: "September 5, 2022",
+        images: ["images/1101.jpg"],
+        note: "We drank dragon fruit smoothie at prezzie and went to second cup.",
+    },
+
+            {
+        number: 1105,
+        location: "Prezzie",
+        lat: 23.752967,
+        lng: 90.369246,
+        date: "September 9, 2022",
+        images: ["images/1105.jpg"],
+        note: "Got sick after going home from here. Was actually sick to begin with.",
+    },
+
+               {   
+        number: 1127,
+        location: "Second Cup",
+        lat: 23.747448, 
+        lng: 90.369940,
+        date: "October 1, 2022",
+        images: ["images/1127.jpg"],
+        note: "We drank dragon fruit smoothie at prezzie and went to second cup.",
+    },
+
+            {
+        number: 1145,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "October 19, 2022",
+        images: ["images/1145.jpg", "images/1145-2.jpg", "images/1145-3.jpg"],
+        note: "The day me gave you Octoushi, the framed AI art and took the first silohoutte photo.",
+    },
+
+        {
+        number: 1148,
+        location: "Beli Deli",
+        lat: 23.744586,
+        lng: 90.407207,
+        date: "October 22, 2022",
+        images: ["images/1148.jpg"],
+        note: "Niloy's fairwell before he went to Japan",
+    },
+
+        {
+        number: 1173,
+        location: "Curzon Hall",
+        lat: 23.727023,
+        lng: 90.401141,
+        date: "November 16, 2022",
+        images: ["images/1173.jpg"],
+        note: "Our Convocation days.",
+    },
+
+        {
+        number: 1194,
+        location: "Tokyo Kitchen",
+        lat: 23.79928,
+        lng: 90.407199,
+        date: "December 7, 2022",
+        images: ["images/1194.jpg"],
+        note: "Me, you and Anika hangout at the new Tokyo Kitchen.",
+    },
+
+        {
+        number: 1215,
+        location: "Shimanto Shambhar",
+        lat: 23.73721,
+        lng: 90.377516,
+        date: "December 28, 2022",
+        images: ["images/1215.jpg"],
+        note: "Fuad Bhai and Tapo's Holud",
+    },
+
+        {
+        number: 1217,
+        location: "Police Convention Hall",
+        lat: 23.745104,
+        lng: 90.402519,
+        date: "December 30, 2022",
+        images: ["images/1217.jpg"],
+        note: "Fuad Bhai and Tapo's Wedding",
+    },
+
+            {
+        number: 1219,
+        location: "Shimanto Shambhar",
+        lat: 23.73721,
+        lng: 90.377516,
+        date: "January 1, 2023",
+        images: ["images/1219.jpg"],
+        note: "Fuad Bhai and Tapo's Reception",
+    },
+
+        {
+        number: 1233,
+        location: "Panda Dumplings",
+        lat: 23.738969,
+        lng: 90.374546,
+        date: "January 15, 2023",
+        images: ["images/1233.jpg"],
+        note: "We went to Panda dumplings. Some couple were doing weird stuff at the front table.",
+    },
+
+        {
+        number: 1245,
+        location: "LazzPolli Convention",
+        lat: 23.805186,
+        lng: 90.259719,
+        date: "January 27, 2023",
+        images: ["images/1245.jpg"],
+        note: "Mehrin's Sangeet, the first time I danced.",
+    },
+
+        {
+        number: 1269,
+        location: "Boi Mela",
+        lat: 23.731936,
+        lng: 90.398678,
+        date: "February 20, 2023",
+        images: ["images/1269.jpg"],
+        note: "We went to boi mela and met Anika and Zakaria.",
+    },
+
+        {
+        number: 1278,
+        location: "Pinewood Cafe",
+        lat: 23.791844,
+        lng: 90.406856,
+        date: "March 1, 2023",
+        images: ["images/1278.jpg"],
+        note: "Mehrin's Birthday!",
+    },
+        {
+        number: 1297,
+        location: "North End",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "March 20, 2023",
+        images: ["images/1297.jpg"],
+        note: "Grand Hangout, we had so many different people at meat theory then we went to northend.",
+    },
+
+        {
+        number: 1320,
+        location: "BruTown",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "April 12, 2023",
+        images: ["images/1320.jpg"],
+        note: "Our iftar at BruTown, probably this was the last hangout with Niloy.",
+    },
+
+        {
+        number: 1330,
+        location: "Second Cup",
+        lat: 23.747448, 
+        lng: 90.369940,
+        date: "April 22, 2023",
+        images: ["images/1330.jpg"],
+        note: "The day we took the mural photo",
+    },
+
+        {
+        number: 1351,
+        location: "Shimanto Shambhar",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "May 13, 2023",
+        images: ["images/1351.jpg"],
+        note: "The day we watched Guardians of the Galaxy 3",
+    },
+
+        {
+        number: 1368,
+        location: "Shilpakala Academy",
+        lat: 23.734606,
+        lng: 90.406333,
+        date: "May 30, 2023",
+        images: ["images/1368.jpg"],
+        note: "The day I went to watch Open Space Theatre for the first time.",
+    },
+
+        {
+        number: 1369,
+        location: "MadChef",
+        lat: 23.715072,
+        lng: 90.4179,
+        date: "May 31, 2023",
+        images: ["images/1369.jpg"],
+        note: "The day you gave me Shulu Bunny.",
+    },
+
+    {
+        number: 1372,
+        location: "Bashundhara City",
+        lat: 23.750508,
+        lng: 90.390726,
+        date: "June 3, 2023",
+        images: ["images/1372.jpg"],
+        note: "The day we watched SpiderVerse",
+    },
+
+        {
+        number: 1379,
+        location: "Mehrin's Niketon House",
+        lat: 23.773087,
+        lng: 90.406813,
+        date: "June 10, 2023",
+        images: ["images/1379.jpg"],
+        note: "The day we first visited Mehrin's Niketon House.",
+    },
+
+        {
+        number: 1399,
+        location: "Comptoir Richards",
+        lat: 23.795936,
+        lng: 90.415245,
+        date: "June 29, 2023",
+        images: ["images/1399.jpg"],
+        note: "We went to Comptoir Richards and Sporsho was there too.",
+    },
+
+            {
+        number: 1400,
+        location: "Comptoir Richards",
+        lat: 23.795936,
+        lng: 90.415245,
+        date: "June 29, 2023",
+        images: ["images/1400.jpg"],
+        note: "We went to Comptoir Richards again. We had some octopus pasta which was very bad.",
+    },
+
+        {
+        number: 1420,
+        location: "North End",
+        lat: 23.738563,
+        lng: 90.378191,
+        date: "July 21, 2023",
+        images: ["images/1420.jpg"],
+        note: "Ita just another hangout at Northend",
+    },
+
+
+            {
+        number: 1430,
+        location: "Shimanto Shambhar",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "May 13, 2023",
+        images: ["images/1430.jpg"],
+        note: "The day we watched Barbie",
+    },
+
+
+    {
+        number: 1450,
+        location: "Crimson Cup",
+        lat: 23.753309,
+        lng: 90.369502,
+        date: "August 19, 2023",
+        images: ["images/1450.jpg"],
+        note: "Another 50 at Crimson Cup",
+    },
+
+        {
+        number: 1490,
+        location: "Marriot Convention Hall",
+        lat: 23.740451,
+        lng: 90.376647,
+        date: "September 29, 2023",
+        images: ["images/1490.jpg"],
+        note: "The day we first went to an AnimeCon",
+    },
+
+        {
+        number: 1500,
+        location: "Fortune Square Food Court",
+        lat: 23.749826,
+        lng: 90.368748,
+        date: "October 9, 2023",
+        images: ["images/1500.jpg"],
+        note: "We tried new food court even though it wasn't very good.",
+    },
+
+    
+        {
+        number: 1510,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "October 19, 2023",
+        images: ["images/1510.jpg"],
+        note: "The birthday I gave you the TingTingPush figurine.",
+    },
+
+
+                {
+        number: 1534,
+        location: "Shimanto Shambhar",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "November 11, 2023",
+        images: ["images/a.png"],
+        note: "The day we watched and sang Taylor Swift's movie",
+    },
+
+
+                {
+        number: 1550,
+        location: "Comptoir Richards",
+        lat: 23.795936,
+        lng: 90.415245,
+        date: "November 28, 2023",
+        images: ["images/1550.jpg"],
+        note: "Another 50 at Comptoirs.",
+    },
+
+        {
+        number: 1563,
+        location: "Great Kebab Factory",
+        lat: 23.749826,
+        lng: 90.368748,
+        date: "December 11, 2023",
+        images: ["images/1563.jpg"],
+        note: "Shahamat's Farewell Treat",
+    },
+
+        {
+        number: 1565,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "December 13, 2023",
+        images: ["images/1565.jpg"],
+        note: "Shahamat and Bidhan's T-10",
+    },
+
+        {
+        number: 1576,
+        location: "Airport",
+        lat: 23.847681,
+        lng: 90.405747,
+        date: "December 24, 2023",
+        images: ["images/1576.jpg"],
+        note: "The day Shahamat left",
+    },
+
+        {
+        number: 1581,
+        location: "BiTechX Office",
+        lat: 23.770192,
+        lng: 90.351039,
+        date: "December 28, 2023",
+        images: ["images/1581.jpg"],
+        note: "Office Pizza Party",
+    },
+
+        {
+        number: 1594,
+        location: "At some resturant I can't Remember",
+        lat: 23.777782,
+        lng: 90.418387,
+        date: "January 10, 2024",
+        images: ["images/1594.jpg"],
+        note: "Sajid Bhaiya's Treat",
+    },
+
+        {
+        number: 1600,
+        location: "Ruen Busaba",
+        lat: 23.791345,
+        lng: 90.406228,
+        date: "January 17, 2024",
+        images: ["images/1600.jpg"],
+        note: "We went to Ruen with Mehrin",
+    },
+
+        {
+        number: 1605,
+        location: "My house",
+        lat: 23.768436,
+        lng: 90.363496,
+        date: "January 22, 2024",
+        images: ["images/1594.jpg"],
+        note: "We setup my new PC. The last time you came to my house before going to USA.",
+    },
+
+        {
+        number: 1659,
+        location: "Chef's Table",
+        lat: 23.795936,
+        lng: 90.415245,
+        date: "March 16, 2024",
+        images: ["images/1659.jpg"],
+        note: "Went to Chef's Table, Met Nishat.",
+    },
+
+        {
+        number: 1659,
+        location: "Izakaya",
+        lat: 23.747596,
+        lng: 90.37026,
+        date: "March 22, 2024",
+        images: ["images/1659.jpg"],
+        note: "The Iftar at Izakaya",
+    },
+
+        {
+        number: 1679,
+        location: "Hongbao",
+        lat: 23.783431,
+        lng: 90.416474,
+        date: "April 5, 2024",
+        images: ["images/1679.jpg"],
+        note: "The day we had a posh dinner at Hongbao. I had to loan Bushra money for shopping to convince her to come XD",
+    },
+
+        {
+        number: 1692,
+        location: "Capawcino",
+        lat: 23.754382,
+        lng: 90.370971,
+        date: "April 17, 2024",
+        images: ["images/1692.jpg"],
+        note: "The day we visited the Cat Cafe.",
+    },
+
+        {
+        number: 1700,
+        location: "SKS Tower",
+        lat: 23.778392,
+        lng: 90.396758,
+        date: "April 26, 2024",
+        images: ["images/1700.jpg"],
+        note: "The day we watched the Argentina film.",
+    },
+
+        {
+        number: 1728,
+        location: "Shanta Tower (Robi Office)",
+        lat: 23.769915,
+        lng: 90.407074,
+        date: "May 24, 2024",
+        images: ["images/1728.jpg","images/1728-2.jpg","images/1728-3.jpg"],
+        note: "We participated in Robi Datathon 3.0 and became finalists.",
+    },
+
+        {
+        number: 1738,
+        location: "BICC",
+        lat: 23.769053,
+        lng: 90.381617,
+        date: "June 3, 2024",
+        images: ["images/1738.jpg"],
+        note: "We went to the prize giving ceremony of Robi Datathon.",
+    },
+
+        {
+        number: 1762,
+        location: "Shimanto Shambhar",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "June 26, 2024",
+        images: ["images/1762.jpg"],
+        note: "We watched Haikyuu after a rainy day and one missed attempt.",
+    },
+
+        {
+        number: 1773,
+        location: "Neela Market",
+        lat: 23.831934,
+        lng: 90.483695,
+        date: "July 8, 2024",
+        images: ["images/1773.jpg"],
+        note: "I almost died from a ferris wheel.",
+    },
+
+        {
+        number: 1798,
+        location: "Shimanto Shambhar",
+        lat: 23.794013,
+        lng: 90.406444,
+        date: "August 2, 2024",
+        images: ["images/1798.jpg"],
+        note: "Raiyaan's Reception as the country went dark.",
+    },
+
+        {
+        number: 1803,
+        location: "Soi7",
+        lat: 23.744629,
+        lng: 90.380597,
+        date: "August 7, 2024",
+        images: ["images/1803.jpg"],
+        note: "Adiba's Wedding",
+    },
+
+        {
+        number: 1806,
+        location: "Brewer's Den",
+        lat: 23.791172,
+        lng: 90.400955,
+        date: "August 10, 2024",
+        images: ["images/1806.jpg"],
+        note: "The Final outside Hangout before you left, we went to Brewer's Den, Woodhouse and Comptoirs.",
+    },
+
+        {
+        number: 1806,
+        location: "Your House",
+        lat: 23.791172,
+        lng: 90.400955,
+        date: "August 11, 2024",
+        images: ["images/1806.jpg"],
+        note: "The final hangout at your house",
+    },
+
+        {
+        number: 1809,
+        location: "Airport",
+        lat: 23.847681,
+        lng: 90.405747,
+        date: "August 13, 2024",
+        images: ["images/1809.jpg"],
+        note: "The day you left for USA.",
+    },
 ];

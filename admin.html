@@ -196,6 +196,42 @@
             justify-content: center;
         }
 
+        .calculator-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #f8f9ff;
+        }
+
+        .calculator-content {
+            display: none;
+        }
+
+        .calculator-content.active {
+            display: block;
+        }
+
         .image-input-group {
             margin-bottom: 10px;
         }
@@ -450,17 +486,43 @@
                     <div class="form-group">
                         <label>Date *</label>
                         
-                        <!-- Date Calculator -->
+                        <!-- Date Calculator with Tabs -->
                         <div class="date-calculator">
-                            <h4>🧮 Calculate Date from Day Number</h4>
-                            <div class="date-calc-inputs">
-                                <div>
-                                    <input type="number" id="dayNumber" placeholder="Enter day number (e.g., 166)" min="-194">
-                                    <small>Day 1 = August 31, 2019</small>
-                                </div>
-                                <button type="button" class="btn btn-secondary btn-small" onclick="calculateDate()">Calculate</button>
+                            <h4>🧮 Date Calculator</h4>
+                            
+                            <!-- Tabs -->
+                            <div class="calculator-tabs">
+                                <button type="button" class="tab-btn active" onclick="switchTab('dayToDate')">
+                                    Day → Date
+                                </button>
+                                <button type="button" class="tab-btn" onclick="switchTab('dateToDay')">
+                                    Date → Day
+                                </button>
                             </div>
-                            <div class="calc-result" id="calcResult">Enter a day number and click Calculate</div>
+
+                            <!-- Day to Date Calculator -->
+                            <div id="dayToDate" class="calculator-content active">
+                                <div class="date-calc-inputs">
+                                    <div>
+                                        <input type="number" id="dayNumber" placeholder="Enter day number (e.g., 166)" min="-194">
+                                        <small>Day 1 = August 31, 2019</small>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary btn-small" onclick="calculateDate()">Calculate</button>
+                                </div>
+                                <div class="calc-result" id="calcResultDayToDate">Enter a day number and click Calculate</div>
+                            </div>
+
+                            <!-- Date to Day Calculator -->
+                            <div id="dateToDay" class="calculator-content">
+                                <div class="date-calc-inputs">
+                                    <div>
+                                        <input type="date" id="dateInput" placeholder="Select date">
+                                        <small>Day 1 = August 31, 2019</small>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary btn-small" onclick="calculateDayNumber()">Calculate</button>
+                                </div>
+                                <div class="calc-result" id="calcResultDateToDay">Select a date and click Calculate</div>
+                            </div>
                         </div>
 
                         <input type="text" id="date" required placeholder="e.g., August 31, 2019">
@@ -676,11 +738,23 @@
             }
         }
 
+        // Switch between calculator tabs
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.calculator-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Calculate date from day number
         function calculateDate() {
             const dayNumber = parseInt(document.getElementById('dayNumber').value);
             
             if (isNaN(dayNumber)) {
-                document.getElementById('calcResult').textContent = 'Please enter a valid day number';
+                document.getElementById('calcResultDayToDate').textContent = 'Please enter a valid day number';
                 return;
             }
 
@@ -695,8 +769,40 @@
             const formattedDate = `${months[resultDate.getMonth()]} ${resultDate.getDate()}, ${resultDate.getFullYear()}`;
 
             // Display result
-            document.getElementById('calcResult').innerHTML = `
+            document.getElementById('calcResultDayToDate').innerHTML = `
                 Day ${dayNumber} = <strong>${formattedDate}</strong>
+            `;
+
+            // Auto-fill the date field
+            document.getElementById('date').value = formattedDate;
+        }
+
+        // Calculate day number from date
+        function calculateDayNumber() {
+            const dateInput = document.getElementById('dateInput').value;
+            
+            if (!dateInput) {
+                document.getElementById('calcResultDateToDay').textContent = 'Please select a date';
+                return;
+            }
+
+            const selectedDate = new Date(dateInput);
+            
+            // Calculate the difference in milliseconds
+            const diffTime = selectedDate - START_DATE;
+            
+            // Convert to days and add 1 (since Day 1 = START_DATE)
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const dayNumber = diffDays + 1;
+
+            // Format the selected date for display
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            const formattedDate = `${months[selectedDate.getMonth()]} ${selectedDate.getDate()}, ${selectedDate.getFullYear()}`;
+
+            // Display result
+            document.getElementById('calcResultDateToDay').innerHTML = `
+                <strong>${formattedDate}</strong> = Day ${dayNumber}
             `;
 
             // Auto-fill the date field
@@ -803,6 +909,7 @@
             const code = document.getElementById('codeOutput').textContent;
             navigator.clipboard.writeText(code).then(function() {
                 const message = document.getElementById('successMessage');
+
                 message.classList.add('show');
                 setTimeout(() => {
                     message.classList.remove('show');
@@ -815,6 +922,14 @@
             if (e.key === 'Enter') {
                 e.preventDefault();
                 calculateDate();
+            }
+        });
+
+        // Allow Enter key in date input to trigger calculation
+        document.getElementById('dateInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calculateDayNumber();
             }
         });
 
