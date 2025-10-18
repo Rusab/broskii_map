@@ -239,4 +239,396 @@ const memories = [
         note: "The day I gave you Kakashi.",
     },
 
+    {
+        number: 644,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "June 4, 2021",
+        images: ["images/741.jpg"],
+        note: "Another day on your rooftop.",
+    },
+
+        {
+        number: 741,
+        location: "Madchef",
+        lat: 23.744539,
+        lng: 90.372071,
+        date: "September 9, 2021",
+        images: ["images/741.jpg"],
+        note: "This was probably the day I met Shahamat's sister for the first time.",
+    },
+
+        {
+        number: 746,
+        location: "Second Cup",
+        lat: 23.747448,
+        lng: 90.36994,
+        date: "September 14, 2021",
+        images: ["images/746.jpg"],
+        note: "One of those rare days when Saidul made his annual appearance.",
+    },
+
+
+        {
+        number: 751,
+        location: "Prezzie",
+        lat: 23.752967,
+        lng: 90.369246,
+        date: "September 19, 2021",
+        images: ["images/751.jpg"],
+        note: "One of our 50s at Prezzie in the morning. Mornings at Prezzie ",
+    },
+
+        {
+        number: 763,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "October 1, 2021",
+        images: ["images/763.jpg"],
+        note: "We working on your thesis.",
+    },
+
+            {
+        number: 780,
+        location: "Second Cup",
+        lat: 23.747448,
+        lng: 90.36994,
+        date: "October 19, 2021",
+        images: ["images/780.jpg"],
+        note: "The birthday when we gave you a mouse pad.",
+    },
+    
+        {
+        number: 785,
+        location: "Curzon Hall",
+        lat: 23.725827,
+        lng: 90.402122,
+        date: "October 23, 2021",
+        images: ["images/785.jpg"],
+        note: "The day we met mashroor and took this photo beside Shahidullah hall's pond.",
+    },
+
+        {
+        number: 788,
+        location: "Woodhouse",
+        lat: 23.79071,
+        lng: 90.403191,
+        date: "October 26, 2021",
+        images: ["images/788.jpg"],
+        note: "Fuad Bhaiya's Biyer Borpokkho Treat",
+    },
+
+        {
+        number: 790,
+        location: "BroTown",
+        lat: 23.74285,
+        lng: 90.407536,
+        date: "October 29, 2021",
+        images: ["images/790-0.jpg"],
+        note: "We went to BruTown and discovered how pleasant it is to wrap the straw around your fingers when you drink something XD",
+    },
+
+        {
+        number: 790,
+        location: "Green Lounge",
+        lat: 23.744837,
+        lng: 90.406811,
+        date: "October 29, 2021",
+        images: ["images/790.jpg"],
+        note: "We randomly walked to Green Lounge and had fancy multi-colored drinks",
+    },
+
+    {
+        number: 790,
+        location: "Secret Reciepe",
+        lat: 23.741986,
+        lng: 90.409989,
+        date: "October 28, 2021",
+        images: ["images/790-2.jpg"],
+        note: "Topa and Fuad Bhai joined our Hangout. Topa brought some chocolates.",
+    },
+
+        {
+        number: 793,
+        location: "Bread and Beyond",
+        lat: 23.740019,
+        lng: 90.374952,
+        date: "November 1, 2021",
+        images: ["images/793.jpg"],
+        note: "For some reason, we went to Bread and Beyond that day and had a bunch of cakes.",
+    },
+
+        {
+        number: 799,
+        location: "Yum Cha District",
+        lat: 23.73891,
+        lng: 90.378766,
+        date: "November 7, 2021",
+        images: ["images/799.jpg"],
+        note: "The day Joya came to visit for the second time. ",
+    },
+
+            {
+        number: 802,
+        location: "Prezzie",
+        lat: 23.752967,
+        lng: 90.369246,
+        date: "November 10, 2021",
+        images: ["images/802.jpg"],
+        note: "Another 50 at Prezzie ",
+    },
+
+                {
+        number: 802,
+        location: "Second Cup",
+        lat: 23.747448,
+        lng: 90.36994,
+        date: "November 10, 2021",
+        images: ["images/802-2.jpg"],
+        note: "Then we went to Second Cup ",
+    },
+
+                {
+        number: 807,
+        location: "Prezzie",
+        lat: 23.752967,
+        lng: 90.369246,
+        date: "November 15, 2021",
+        images: ["images/807.jpg"],
+        note: "We came after our semester final exams.",
+    },
+
+        {
+        number: 811,
+        location: "Thai Emerald",
+        lat: 23.777406,
+        lng: 90.41579,
+        date: "November 19, 2021",
+        images: ["images/811.jpg"],
+        note: "The first time we went to Thai Emerald on a BiTechX Eric Treat.",
+    },
+
+        {
+        number: 812,
+        location: "Tokyo Kitchen",
+        lat: 23.796515,
+        lng: 90.410763,
+        date: "November 20, 2021",
+        images: ["images/812-2.jpg"],
+        note: "Here's us burning our throats at Tokyo Kitchen. Back when I still could tolerate spice XD",
+    },
+
+        {
+        number: 814,
+        location: "Register Building",
+        lat: 23.735033,
+        lng: 90.390287,
+        date: "November 22, 2021",
+        images: ["images/814.jpg"],
+        note: "When you got your marksheet from Register Building. ",
+    },
+
+        {
+        number: 821,
+        location: "Some place we tried Ramen",
+        lat: 23.719509,
+        lng: 90.416383,
+        date: "November 29, 2021",
+        images: ["images/821.jpg"],
+        note: "Totally forgot the name of the place. But we tried Ramen here and Bidhan unpacked his certificate from a Huawei competition he placed 2nd in.",
+    },
+
+        {
+        number: 847,
+        location: "Shimanto Shambhar",
+        lat: 23.73721,
+        lng: 90.377516,
+        date: "December 25, 2021",
+        images: ["images/847.jpg"],
+        note: "The day we watched Spiderman No way home",
+    },
+
+        {
+        number: 858,
+        location: "Gotcha",
+        lat: 23.74554,
+        lng: 90.37921,
+        date: "January 5, 2022",
+        images: ["images/858.jpg"],
+        note: "After our last exam, we went to Gotcha",
+    },
+
+        {
+        number: 863,
+        location: "Aloush",
+        lat: 23.746043,
+        lng: 90.370992,
+        date: "January 10, 2022",
+        images: ["images/858.jpg"],
+        note: "Probably the only time we went to Aloush",
+    },
+
+            {
+        number: 869,
+        location: "Curzon Hall",
+        lat: 23.728361,
+        lng: 90.401444,
+        date: "January 16, 2022",
+        images: ["images/869.jpg"],
+        note: "The Ragday of our Varsity life.",
+    },
+
+        {
+        number: 900,
+        location: "Alfresco",
+        lat: 23.753309,
+        lng: 90.369502,
+        date: "January 16, 2022",
+        images: ["images/900.jpg"],
+        note: "One of our 50s at Alfresco with Bushra. Is it this day you burnt your hand?",
+    },
+
+        {
+        number: 906,
+        location: "Riday's House",
+        lat: 23.770192,
+        lng: 90.351039,
+        date: "February 21, 2022",
+        images: ["images/906.jpg"],
+        note: "Riday's Sister's Wedding",
+    },
+
+        {
+        number: 912,
+        location: "Boimela",
+        lat: 23.733379,
+        lng: 90.39917,
+        date: "February 27, 2022",
+        images: ["images/912.jpg", "images/912-2.jpg"],
+        note: "We found a tingtingpush at boi mela",
+    },
+
+        {
+        number: 916,
+        location: "Smores'",
+        lat: 23.738811,
+        lng: 90.378632,
+        date: "March 4, 2022",
+        images: ["images/916.jpg"],
+        note: "Rag Dinner at Smores. Still some how the best Buffet place I ever went to.",
+    },
+
+        {
+        number: 930,
+        location: "Mehrin's House",
+        lat: 23.798327,
+        lng: 90.406625,
+        date: "March 18, 2022",
+        images: ["images/930.jpg"],
+        note: "Mehrin's first Holud on her Rooftop. I remember we sang songs to her together, still the most wholesome holud ever.",
+    },
+
+        {
+        number: 931,
+        location: "Sagarika Hall",
+        lat: 23.802578,
+        lng: 90.405931,
+        date: "March 19, 2022",
+        images: ["images/931.jpg"],
+        note: "Mehrin's Wedding Ceremony. I remember waiting a lot that day to get an uber back home.",
+    },
+
+        {
+        number: 931,
+        location: "Lonestar Steakhouse",
+        lat: 23.746744,
+        lng: 90.37131,
+        date: "March 23, 2022",
+        images: ["images/935.jpg"],
+        note: "The day Raiyaan hangout with Morshed. We went from Thirty3 to SecondCup to LoneStar.",
+    },
+
+            {
+        number: 938,
+        location: "Tokyo Kitchen",
+        lat: 23.796515,
+        lng: 90.410763,
+        date: "March 26, 2022",
+        images: ["images/938.jpg"],
+        note: "Fuad Bhaiya's Final Treat before getting married.",
+    },
+
+        {
+        number: 938,
+        location: "Moolicious",
+        lat: 23.790331,
+        lng: 90.408553,
+        date: "March 25, 2022",
+        images: ["images/938-2.jpg"],
+        note: "Then we went to Moolicous to mitigate the spice from Tokyo kitchen",
+    },
+
+        {
+        number: 942,
+        location: "Boikali Lake",
+        lat: 23.837052,
+        lng: 90.364375,
+        date: "March 30, 2022",
+        images: ["images/942.jpg"],
+        note: "We went to a park after setting up Bushra's PC.",
+    },
+
+            {
+        number: 945,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "April 2, 2021",
+        images: ["images/945.jpg", "images/945-2.jpg"],
+        note: "Another day on your roof top, Pranjal and Shahamat, Bidhan joined that day. We had deepdish.",
+    },
+
+            {
+        number: 971,
+        location: "BroTown",
+        lat: 23.74285,
+        lng: 90.407536,
+        date: "April 28, 2021",
+        images: ["images/971.jpg"],
+        note: "Iftar at BruTown",
+    },
+
+            {
+        number: 986,
+        location: "Shimanto Shambhar",
+        lat: 23.73721,
+        lng: 90.377516,
+        date: "May 13, 2022",
+        images: ["images/986.jpg"],
+        note: "We watched Multi-verse of Madness. I couldn't enjoy the 3D with my glasses though XD",
+    },
+    
+
+        {
+        number: 1000,
+        location: "Rabindra Sharabar Bridge",
+        lat: 23.745988,
+        lng: 90.378437,
+        date: "May 27, 2022",
+        images: ["images/942.jpg"],
+        note: "The legendary 1000th day. We went to Crimson cup, Gotcha, Tabaq and Glazed.",
+    },
+
+        {
+        number: 1035,
+        location: "Xinxian Resturant",
+        lat: 23.745785,
+        lng: 90.384208,
+        date: "July 1, 2022",
+        images: ["images/1035.jpg"],
+        note: "Fuad bhai and Topa's Engagement.",
+    },
+
 ];
