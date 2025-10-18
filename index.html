@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Journey Through Dhaka</title>
+    <title>A map of memories</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -219,10 +219,22 @@
             color: #333;
         }
 
+        /* FIX: Force marker wrapper to fixed size */
+        .custom-marker-wrapper {
+            width: 70px !important;
+            height: 70px !important;
+            /* Prevent any scaling transformations */
+        }
+
+        .custom-marker-wrapper * {
+            /* Prevent child elements from inheriting any zoom scaling */
+            zoom: 1 !important;
+        }
+
         /* Custom marker styles */
         .custom-marker {
-            width: 70px;
-            height: 70px;
+            width: 70px !important;
+            height: 70px !important;
             border-radius: 50%;
             border: 3px solid white;
             box-shadow: 0 3px 10px rgba(0,0,0,0.4);
@@ -234,7 +246,7 @@
         }
 
         .custom-marker:hover {
-            transform: scale(1.15);
+            transform: scale(1.15) !important;
             z-index: 1000 !important;
         }
 
@@ -251,7 +263,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 12px !important;
             font-weight: bold;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -260,15 +272,15 @@
 
         .marker-container {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 70px !important;
+            height: 70px !important;
         }
 
         /* Multiple markers at same location - STACKED */
         .marker-stack {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 70px !important;
+            height: 70px !important;
             cursor: pointer;
         }
 
@@ -278,6 +290,8 @@
             left: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             pointer-events: none;
+            width: 70px !important;
+            height: 70px !important;
         }
 
         .marker-stack:not(.expanded) .marker-container:nth-child(1) {
@@ -339,14 +353,14 @@
             left: -5px;
             background: #ff6b9d;
             color: white;
-            min-width: 24px;
-            height: 24px;
+            min-width: 24px !important;
+            height: 24px !important;
             padding: 0 4px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 11px !important;
             font-weight: bold;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -380,7 +394,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>A Map of Moments</h1>
+        <h1>Our story across space and time</h1>
     </div>
 
     <div id="map"></div>
@@ -764,38 +778,3 @@
     </script>
 </body>
 </html>
-```
-
-## Key Features Added:
-
-### 1. **Sequential View (Default)**
-- Shows memories one at a time
-- Click "Next →" to reveal the next memory point and connecting path
-- Click "← Previous" to go back
-- Progress counter shows current position (e.g., "3 / 14")
-- Arrow keys work too (← → or ↑ ↓)
-
-### 2. **View All Mode**
-- Click "View All" button to see the complete journey at once
-- Button changes to "Sequential View" to return to step-by-step mode
-
-### 3. **Separated Data**
-- All memory data is now in `memories.js`
-- Easy to edit and maintain
-- Just update the array in that file
-
-### 4. **Enhanced Controls**
-- Bottom control panel with intuitive buttons
-- Previous/Next buttons auto-disable at start/end
-- Smooth transitions between views
-
-## File Structure:
-```
-your-project/
-├── index.html
-├── memories.js
-└── images/
-    ├── -194.jpg
-    ├── 0.jpg
-    ├── 27.jpg
-    └── ... (all your images)

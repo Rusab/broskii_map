@@ -157,4 +157,86 @@ const memories = [
         note: "The last Nobinboron. The first time I went to back stage and edited some time stamps or something. ",
     },
 
+        {
+        number: 184,
+        location: "Second Cup",
+        lat: 23.747448,
+        lng: 90.36994,
+        date: "March 1, 2020",
+        images: ["images/184.jpg"],
+        note: "The day you found a leaf and decided to draw on it",
+    },
+
+        {
+        number: 194,
+        location: "Shena Kunja",
+        lat: 23.803477,
+        lng: 90.398559,
+        date: "March 11, 2020",
+        images: ["images/194.jpg"],
+        note: "The day we went to Bushra's brother's reception. This day is exactly the same number of days away from Day 1. As Day 1 was from the day of our first selfie. ",
+    },
+
+    {
+        number: 200,
+        location: "Coffee World",
+        lat: 23.753206,
+        lng: 90.369446,
+        date: "March 16, 2020",
+        images: ["images/200.jpg"],
+        note: "The last hangout before the world went to COVID lockdown. ",
+        
+    },
+
+        {
+        number: 504,
+        location: "BSH",
+        lat: 23.776501,
+        lng: 90.362738,
+        date: "January 15, 2021",
+        images: ["images/504.jpg"],
+        note: "Probably the first time we met after the lockdown.",
+        journeyNote: "So many things happened in this timeline. So many late night calls, so many valorant maches, so many anime we watched. "
+    },
+
+        {
+        number: 506,
+        location: "IDB",
+        lat: 23.77851,
+        lng: 90.379869,
+        date: "January 17, 2021",
+        images: ["images/506.jpg"],
+        note: "We went to IDB, We got Saidul's mouse.",
+    },
+
+    {
+        number: 518,
+        location: "Second Cup",
+        lat: 23.747448,
+        lng: 90.36994,
+        date: "January 29, 2021",
+        images: ["images/518.jpg"],
+        note: "Probably the first time we went to Second Cup after the Lockdown",
+    },
+
+        {
+        number: 539,
+        location: "Your house",
+        lat: 23.71901,
+        lng: 90.423325,
+        date: "February 19, 2021",
+        images: ["images/539.jpg"],
+        note: "Here is to our many hangouts at your house and your rooftop during COVID.",
+    },
+
+        {
+        number: 560,
+        location: "My house",
+        lat: 23.768436,
+        lng: 90.363496,
+        date: "March 12, 2021",
+        images: ["images/560.jpg"],
+        note: "The day I gave you Kakashi.",
+    },
+
 ];

@@ -121,6 +121,46 @@
             gap: 10px;
         }
 
+        .coord-paste-input {
+            margin-bottom: 10px;
+        }
+
+        .coord-paste-input input {
+            background: #f8f9ff;
+            border: 2px dashed #667eea;
+        }
+
+        .coord-paste-input input:focus {
+            background: white;
+            border-style: solid;
+        }
+
+        .divider {
+            text-align: center;
+            color: #999;
+            margin: 10px 0;
+            font-size: 12px;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
         .date-calculator {
             background: #f8f9ff;
             padding: 15px;
@@ -349,6 +389,28 @@
             max-height: 300px;
             overflow-y: auto;
         }
+
+        .coord-status {
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .coord-status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .coord-status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -407,6 +469,17 @@
 
                     <div class="form-group">
                         <label>Coordinates *</label>
+                        
+                        <!-- Quick paste input -->
+                        <div class="coord-paste-input">
+                            <input type="text" id="coordPaste" placeholder="Paste coordinates: 23.803477, 90.398559">
+                            <small>📋 Quick paste: Enter coordinates as "lat, lng" format</small>
+                            <div class="coord-status" id="coordStatus"></div>
+                        </div>
+
+                        <div class="divider">OR</div>
+
+                        <!-- Individual coordinate inputs -->
                         <div class="coord-inputs">
                             <div>
                                 <input type="number" id="lat" step="0.000001" required placeholder="Latitude">
@@ -415,7 +488,7 @@
                                 <input type="number" id="lng" step="0.000001" required placeholder="Longitude">
                             </div>
                         </div>
-                        <small>Click on the map or use the search box to set coordinates →</small>
+                        <small>Enter manually, search on map, or click the map →</small>
                     </div>
 
                     <div class="form-group">
@@ -501,8 +574,7 @@
                 const locationName = e.geocode.name;
                 
                 // Set coordinates
-                document.getElementById('lat').value = latlng.lat.toFixed(6);
-                document.getElementById('lng').value = latlng.lng.toFixed(6);
+                updateCoordinates(latlng.lat, latlng.lng);
                 
                 // Optionally auto-fill location name if empty
                 if (!document.getElementById('location').value) {
@@ -524,8 +596,7 @@
             // Click to set location
             map.on('click', function(e) {
                 const { lat, lng } = e.latlng;
-                document.getElementById('lat').value = lat.toFixed(6);
-                document.getElementById('lng').value = lng.toFixed(6);
+                updateCoordinates(lat, lng);
 
                 // Add or update marker
                 if (marker) {
@@ -539,6 +610,72 @@
             displayExistingEntries();
         }
 
+        // Function to update coordinates in all fields
+        function updateCoordinates(lat, lng) {
+            document.getElementById('lat').value = parseFloat(lat).toFixed(6);
+            document.getElementById('lng').value = parseFloat(lng).toFixed(6);
+            document.getElementById('coordPaste').value = `${parseFloat(lat).toFixed(6)}, ${parseFloat(lng).toFixed(6)}`;
+        }
+
+        // Handle coordinate paste input
+        document.getElementById('coordPaste').addEventListener('input', function(e) {
+            const input = e.target.value.trim();
+            const statusDiv = document.getElementById('coordStatus');
+            
+            if (!input) {
+                statusDiv.className = 'coord-status';
+                return;
+            }
+
+            // Try to parse coordinates in various formats
+            // Supports: "lat, lng" or "lat,lng" or "lat lng"
+            const coordPattern = /^(-?\d+\.?\d*)[,\s]+(-?\d+\.?\d*)$/;
+            const match = input.match(coordPattern);
+
+            if (match) {
+                const lat = parseFloat(match[1]);
+                const lng = parseFloat(match[2]);
+
+                // Validate coordinate ranges
+                if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    document.getElementById('lat').value = lat.toFixed(6);
+                    document.getElementById('lng').value = lng.toFixed(6);
+
+                    // Update marker on map
+                    const latlng = L.latLng(lat, lng);
+                    if (marker) {
+                        marker.setLatLng(latlng);
+                    } else {
+                        marker = L.marker(latlng).addTo(map);
+                    }
+                    map.setView(latlng, 15);
+
+                    // Show success status
+                    statusDiv.className = 'coord-status success';
+                    statusDiv.textContent = `✓ Coordinates set: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                } else {
+                    statusDiv.className = 'coord-status error';
+                    statusDiv.textContent = '✗ Invalid coordinates (lat: -90 to 90, lng: -180 to 180)';
+                }
+            } else {
+                statusDiv.className = 'coord-status error';
+                statusDiv.textContent = '✗ Invalid format. Use: 23.803477, 90.398559';
+            }
+        });
+
+        // Sync individual coordinate inputs back to paste field
+        document.getElementById('lat').addEventListener('input', syncToPasteField);
+        document.getElementById('lng').addEventListener('input', syncToPasteField);
+
+        function syncToPasteField() {
+            const lat = document.getElementById('lat').value;
+            const lng = document.getElementById('lng').value;
+            
+            if (lat && lng) {
+                document.getElementById('coordPaste').value = `${lat}, ${lng}`;
+            }
+        }
+
         function calculateDate() {
             const dayNumber = parseInt(document.getElementById('dayNumber').value);
             
@@ -548,9 +685,6 @@
             }
 
             // Calculate date: START_DATE + (dayNumber - 1) days
-            // Day 1 = Aug 31, 2019 (0 days added)
-            // Day 2 = Sep 1, 2019 (1 day added)
-            // Day 166 = Jan 13, 2020 (165 days added)
             const daysToAdd = dayNumber - 1;
             const resultDate = new Date(START_DATE);
             resultDate.setDate(resultDate.getDate() + daysToAdd);
@@ -595,8 +729,7 @@
                     const lng = position.coords.longitude;
                     map.setView([lat, lng], 15);
                     
-                    document.getElementById('lat').value = lat.toFixed(6);
-                    document.getElementById('lng').value = lng.toFixed(6);
+                    updateCoordinates(lat, lng);
                     
                     if (marker) {
                         marker.setLatLng([lat, lng]);
