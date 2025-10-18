@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Admin - Add New Entries</title>
+    
+    <!-- Leaflet CSS for map picker -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Geocoder Plugin -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .coord-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .date-calculator {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #667eea;
+            margin-bottom: 15px;
+        }
+
+        .date-calculator h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .date-calc-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .calc-result {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-input-group {
+            margin-bottom: 10px;
+        }
+
+        .add-image-btn {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .add-image-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9ff;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        #map {
+            height: 400px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .map-hint {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .output-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .code-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .existing-entries {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .existing-entries h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .existing-entry {
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .entry-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .start-date-info {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+        }
+
+        .start-date-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #856404;
+        }
+
+        /* Custom styling for geocoder search box */
+        .leaflet-control-geocoder {
+            border: 2px solid #667eea !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .leaflet-control-geocoder-form input {
+            border: none !important;
+            font-size: 14px !important;
+            padding: 8px 12px !important;
+        }
+
+        .leaflet-control-geocoder-alternatives {
+            border-radius: 8px !important;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗺️ Memory Admin Panel</h1>
+            <p>Add new memories to your journey map</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="card">
+                <h2>Add New Memory</h2>
+                
+                <div class="start-date-info">
+                    <strong>📅 Start Date Reference</strong>
+                    Day 1 = August 31, 2019 (Crimson Cup hangout)
+                </div>
+
+                <div class="existing-entries">
+                    <h3>Existing Entries</h3>
+                    <div id="existingList"></div>
+                </div>
+
+                <form id="memoryForm">
+                    <div class="form-group">
+                        <label for="number">Memory Number *</label>
+                        <input type="number" id="number" required>
+                        <small>A unique identifier for this memory</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location Name *</label>
+                        <input type="text" id="location" required placeholder="e.g., Crimson Cup">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date *</label>
+                        
+                        <!-- Date Calculator -->
+                        <div class="date-calculator">
+                            <h4>🧮 Calculate Date from Day Number</h4>
+                            <div class="date-calc-inputs">
+                                <div>
+                                    <input type="number" id="dayNumber" placeholder="Enter day number (e.g., 166)" min="-194">
+                                    <small>Day 1 = August 31, 2019</small>
+                                </div>
+                                <button type="button" class="btn btn-secondary btn-small" onclick="calculateDate()">Calculate</button>
+                            </div>
+                            <div class="calc-result" id="calcResult">Enter a day number and click Calculate</div>
+                        </div>
+
+                        <input type="text" id="date" required placeholder="e.g., August 31, 2019">
+                        <small>Or enter date manually</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Coordinates *</label>
+                        <div class="coord-inputs">
+                            <div>
+                                <input type="number" id="lat" step="0.000001" required placeholder="Latitude">
+                            </div>
+                            <div>
+                                <input type="number" id="lng" step="0.000001" required placeholder="Longitude">
+                            </div>
+                        </div>
+                        <small>Click on the map or use the search box to set coordinates →</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Images *</label>
+                        <div id="imageInputs">
+                            <div class="image-input-group">
+                                <input type="text" class="image-input" placeholder="images/photo.jpg" required>
+                            </div>
+                        </div>
+                        <div class="add-image-btn" onclick="addImageInput()">+ Add Another Image</div>
+                        <small>Enter image paths relative to your HTML file</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="note">Memory Note *</label>
+                        <textarea id="note" required placeholder="Describe what happened at this location..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="journeyNote">Journey Note (Optional)</label>
+                        <textarea id="journeyNote" placeholder="What happened between the previous location and this one?"></textarea>
+                        <small>This will appear on the path line connecting to the previous memory</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Generate Code</button>
+                </form>
+            </div>
+
+            <!-- Map Section -->
+            <div class="card">
+                <h2>Pick Location</h2>
+                <div class="map-hint">
+                    🔍 Search for a location using the search box on the map, or click anywhere to set coordinates
+                </div>
+                <div id="map"></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="centerOnDhaka()">Center on Dhaka</button>
+                    <button class="btn btn-secondary" onclick="useCurrentLocation()">Use My Location</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h2>Generated Code</h2>
+            <p style="color: #666; margin-bottom: 15px;">Copy this code and paste it into your <strong>memories.js</strong> file</p>
+            <div class="code-output" id="codeOutput">
+// Click "Generate Code" to see the output here...
+            </div>
+            <button class="btn btn-secondary copy-btn" onclick="copyCode()">📋 Copy to Clipboard</button>
+            <div class="success-message" id="successMessage">✓ Code copied! Now paste it into memories.js</div>
+        </div>
+    </div>
+
+    <script src="memories.js"></script>
+    <script>
+        let map;
+        let marker;
+        let geocoder;
+        
+        // Reference start date: August 31, 2019 (Day 1)
+        const START_DATE = new Date('2019-08-31');
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map').setView([23.8103, 90.4125], 12);
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '© OpenStreetMap contributors © CARTO',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Add geocoder search control
+            geocoder = L.Control.geocoder({
+                defaultMarkGeocode: false,
+                placeholder: 'Search for a place...',
+                errorMessage: 'Location not found',
+                collapsed: false,
+                position: 'topleft'
+            })
+            .on('markgeocode', function(e) {
+                const latlng = e.geocode.center;
+                const locationName = e.geocode.name;
+                
+                // Set coordinates
+                document.getElementById('lat').value = latlng.lat.toFixed(6);
+                document.getElementById('lng').value = latlng.lng.toFixed(6);
+                
+                // Optionally auto-fill location name if empty
+                if (!document.getElementById('location').value) {
+                    document.getElementById('location').value = locationName;
+                }
+                
+                // Update or create marker
+                if (marker) {
+                    marker.setLatLng(latlng);
+                } else {
+                    marker = L.marker(latlng).addTo(map);
+                }
+                
+                // Center map on the result
+                map.setView(latlng, 15);
+            })
+            .addTo(map);
+
+            // Click to set location
+            map.on('click', function(e) {
+                const { lat, lng } = e.latlng;
+                document.getElementById('lat').value = lat.toFixed(6);
+                document.getElementById('lng').value = lng.toFixed(6);
+
+                // Add or update marker
+                if (marker) {
+                    marker.setLatLng(e.latlng);
+                } else {
+                    marker = L.marker(e.latlng).addTo(map);
+                }
+            });
+
+            // Display existing memories
+            displayExistingEntries();
+        }
+
+        function calculateDate() {
+            const dayNumber = parseInt(document.getElementById('dayNumber').value);
+            
+            if (isNaN(dayNumber)) {
+                document.getElementById('calcResult').textContent = 'Please enter a valid day number';
+                return;
+            }
+
+            // Calculate date: START_DATE + (dayNumber - 1) days
+            // Day 1 = Aug 31, 2019 (0 days added)
+            // Day 2 = Sep 1, 2019 (1 day added)
+            // Day 166 = Jan 13, 2020 (165 days added)
+            const daysToAdd = dayNumber - 1;
+            const resultDate = new Date(START_DATE);
+            resultDate.setDate(resultDate.getDate() + daysToAdd);
+
+            // Format date as "Month Day, Year"
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            const formattedDate = `${months[resultDate.getMonth()]} ${resultDate.getDate()}, ${resultDate.getFullYear()}`;
+
+            // Display result
+            document.getElementById('calcResult').innerHTML = `
+                Day ${dayNumber} = <strong>${formattedDate}</strong>
+            `;
+
+            // Auto-fill the date field
+            document.getElementById('date').value = formattedDate;
+        }
+
+        function displayExistingEntries() {
+            const list = document.getElementById('existingList');
+            list.innerHTML = '';
+            
+            memories.forEach(memory => {
+                const div = document.createElement('div');
+                div.className = 'existing-entry';
+                div.innerHTML = `
+                    <span><span class="entry-number">#${memory.number}</span> - ${memory.location}</span>
+                    <span style="color: #999; font-size: 11px;">${memory.date}</span>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function centerOnDhaka() {
+            map.setView([23.8103, 90.4125], 12);
+        }
+
+        function useCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    map.setView([lat, lng], 15);
+                    
+                    document.getElementById('lat').value = lat.toFixed(6);
+                    document.getElementById('lng').value = lng.toFixed(6);
+                    
+                    if (marker) {
+                        marker.setLatLng([lat, lng]);
+                    } else {
+                        marker = L.marker([lat, lng]).addTo(map);
+                    }
+                });
+            } else {
+                alert('Geolocation is not supported by your browser');
+            }
+        }
+
+        function addImageInput() {
+            const container = document.getElementById('imageInputs');
+            const div = document.createElement('div');
+            div.className = 'image-input-group';
+            div.innerHTML = `
+                <input type="text" class="image-input" placeholder="images/photo.jpg">
+            `;
+            container.appendChild(div);
+        }
+
+        // Form submission
+        document.getElementById('memoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const number = document.getElementById('number').value;
+            const location = document.getElementById('location').value;
+            const lat = parseFloat(document.getElementById('lat').value);
+            const lng = parseFloat(document.getElementById('lng').value);
+            const date = document.getElementById('date').value;
+            const note = document.getElementById('note').value;
+            const journeyNote = document.getElementById('journeyNote').value;
+
+            // Collect all image paths
+            const imageInputs = document.querySelectorAll('.image-input');
+            const images = Array.from(imageInputs)
+                .map(input => input.value.trim())
+                .filter(val => val !== '');
+
+            if (images.length === 0) {
+                alert('Please add at least one image path');
+                return;
+            }
+
+            // Escape special characters in strings
+            function escapeString(str) {
+                return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            }
+
+            // Generate code
+            let code = `    {\n`;
+            code += `        number: ${number},\n`;
+            code += `        location: "${escapeString(location)}",\n`;
+            code += `        lat: ${lat},\n`;
+            code += `        lng: ${lng},\n`;
+            code += `        date: "${escapeString(date)}",\n`;
+            code += `        images: [${images.map(img => `"${escapeString(img)}"`).join(', ')}],\n`;
+            code += `        note: "${escapeString(note)}",\n`;
+            
+            if (journeyNote) {
+                code += `        journeyNote: "${escapeString(journeyNote)}"\n`;
+            }
+            
+            code += `    },`;
+
+            document.getElementById('codeOutput').textContent = code;
+        });
+
+        function copyCode() {
+            const code = document.getElementById('codeOutput').textContent;
+            navigator.clipboard.writeText(code).then(function() {
+                const message = document.getElementById('successMessage');
+                message.classList.add('show');
+                setTimeout(() => {
+                    message.classList.remove('show');
+                }, 3000);
+            });
+        }
+
+        // Allow Enter key in day number input to trigger calculation
+        document.getElementById('dayNumber').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                calculateDate();
+            }
+        });
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>

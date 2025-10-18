@@ -8,10 +8,12 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
-    <!-- Leaflet JS - Load synchronously -->
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- Leaflet Polyline Decorator for arrows -->
     <script src="https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js"></script>
+    
+    <!-- Import memories data -->
+    <script src="memories.js"></script>
     
     <style>
         * {
@@ -45,6 +47,63 @@
         .header h1 {
             font-size: 24px;
             color: #667eea;
+            text-align: center;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .control-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .control-btn.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .control-btn.secondary:hover {
+            background: #f8f9ff;
+        }
+
+        .progress-info {
+            font-size: 16px;
+            color: #667eea;
+            font-weight: 600;
+            min-width: 120px;
             text-align: center;
         }
 
@@ -205,56 +264,100 @@
             height: 70px;
         }
 
-        /* Multiple markers at same location */
-        .marker-cluster {
+        /* Multiple markers at same location - STACKED */
+        .marker-stack {
             position: relative;
+            width: 70px;
+            height: 70px;
             cursor: pointer;
         }
 
-        .marker-cluster .custom-marker {
+        .marker-stack .marker-container {
             position: absolute;
-            transition: all 0.3s ease;
+            top: 0;
+            left: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
         }
 
-        .marker-cluster.expanded .custom-marker {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        .marker-cluster .custom-marker:nth-child(1) {
+        .marker-stack:not(.expanded) .marker-container:nth-child(1) {
             z-index: 3;
+            transform: translate(0, 0);
         }
 
-        .marker-cluster .custom-marker:nth-child(2) {
+        .marker-stack:not(.expanded) .marker-container:nth-child(2) {
             z-index: 2;
+            transform: translate(5px, 5px);
+        }
+
+        .marker-stack:not(.expanded) .marker-container:nth-child(3) {
+            z-index: 1;
             transform: translate(10px, 10px);
         }
 
-        .marker-cluster .custom-marker:nth-child(3) {
-            z-index: 1;
-            transform: translate(20px, 20px);
+        .marker-stack:not(.expanded) .marker-container:nth-child(n+4) {
+            z-index: 0;
+            transform: translate(15px, 15px);
         }
 
-        .marker-cluster.expanded .custom-marker:nth-child(1) {
-            transform: translate(-40px, -40px);
+        .marker-stack.expanded .marker-container {
+            z-index: 10 !important;
+            pointer-events: all;
         }
 
-        .marker-cluster.expanded .custom-marker:nth-child(2) {
-            transform: translate(40px, -40px);
+        .marker-stack.expanded .marker-container:nth-child(1) {
+            transform: translate(-60px, -60px);
         }
 
-        .marker-cluster.expanded .custom-marker:nth-child(3) {
-            transform: translate(0px, 50px);
+        .marker-stack.expanded .marker-container:nth-child(2) {
+            transform: translate(60px, -60px);
         }
 
-        .marker-cluster.expanded .custom-marker:nth-child(4) {
-            transform: translate(-40px, 50px);
+        .marker-stack.expanded .marker-container:nth-child(3) {
+            transform: translate(-80px, 40px);
         }
 
-        .marker-cluster.expanded .custom-marker:nth-child(5) {
-            transform: translate(40px, 50px);
+        .marker-stack.expanded .marker-container:nth-child(4) {
+            transform: translate(0px, 70px);
         }
 
-        /* Journey note popup */
+        .marker-stack.expanded .marker-container:nth-child(5) {
+            transform: translate(80px, 40px);
+        }
+
+        .marker-stack.expanded .marker-container:nth-child(6) {
+            transform: translate(-100px, -10px);
+        }
+
+        .marker-stack.expanded .marker-container:nth-child(7) {
+            transform: translate(100px, -10px);
+        }
+
+        .stack-count {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: #ff6b9d;
+            color: white;
+            min-width: 24px;
+            height: 24px;
+            padding: 0 4px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .marker-stack.expanded .stack-count {
+            display: none;
+        }
+
         .journey-popup {
             background: white;
             padding: 15px 20px;
@@ -282,6 +385,14 @@
 
     <div id="map"></div>
 
+    <!-- Control Panel -->
+    <div class="control-panel">
+        <button id="prevBtn" class="control-btn" disabled>← Previous</button>
+        <div class="progress-info" id="progressInfo">1 / 14</div>
+        <button id="nextBtn" class="control-btn">Next →</button>
+        <button id="viewAllBtn" class="control-btn secondary">View All</button>
+    </div>
+
     <!-- Modal -->
     <div id="memoryModal" class="modal">
         <div class="modal-content">
@@ -298,102 +409,112 @@
     </div>
 
     <script>
-        // ============================================
-        // CONFIGURATION SECTION - EDIT THIS PART
-        // ============================================
-        
-        const memories = [
-                {
-                    number: -194,
-                    location: "Curzon Hall",
-                    lat: 23.727361,
-                    lng: 90.401444,
-                    date: "February 18, 2019",
-                    images: ["images/-194.jpg"],
-                    note: "The journey didn't start here, when you randomly wanted to take a selfie",
-                    
-                },
-            {
-                number: 1,  // Skip to 50!
-                location: "Crimson Cup",
-                lat: 23.738824, 
-                lng: 90.378759,
-                date: "August 31, 2019",
-                images: ["images/0.jpg"],
-                note: "Everyone canceled, except us. And that's where the journey began. We sat in crimson cup for an hour after the movie, because you had to pick Urbi from college. We talked about entropy and random stuff. I took a random photo and sent mehrin. Mehrin said Me Crimson cup and you were two things she never thought would collide.",
-                journeyNote: "194 days passed since this selfie. On one random day, you decided to ask me to go on a hangout with you guys. And on an eventual hangout all of us decided to go watch Spider Man: Far from home."
-            },
-
-            {
-                number: 27,
-                location: "Pizza Burg",
-                lat: 23.747459,
-                lng:  90.370319,
-                date: "September 26, 2019",
-                images: ["images/27.jpg"],
-                note: "Everyone went to pizza burg",
-                
-            },
-            {
-                    number: -194,
-                    location: "Curzon Hall",
-                    lat: 23.727361,
-                    lng: 90.401444,
-                    date: "Oct 1, 2019",
-                    images: ["images/32.jpg"],
-                    note: "The journey didn't start here, when you randomly wanted to take a selfie",
-                    
-                },
-            {
-                    number: 50,
-                    location: "TSC",
-                    lat: 23.731748, 
-                    lng: 90.395574,
-                    date: "Oct 19, 2019",
-                    images: ["images/50.jpg"],
-                    note: "First time I celebrated your birthday. Gave you a earphone, probably the first gift I ever gave you.",
-                    
-                },
-            {
-                    number: 74,
-                    location: "Second Cup",
-                    lat: 23.747519, 
-                    lng: 90.365398,
-                    date: "Oct 19, 2019",
-                    images: ["images/74.jpg"],
-                    note: "The day you lost your earphone.",
-                    
-                },
-        ];
-
-        // ============================================
-        // END OF CONFIGURATION - CODE BELOW
-        // ============================================
-
         let map;
         let markers = [];
+        let pathSegments = [];
+        let decorators = [];
+        let currentExpandedStack = null;
+        let currentIndex = 0;
+        let isSequentialMode = true;
 
         function initMap() {
-            // Initialize map centered on Dhaka
             map = L.map('map').setView([23.8103, 90.4125], 12);
 
-            // Add CartoDB map tiles (English labels, clean design)
             L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                 attribution: '© OpenStreetMap contributors © CARTO',
                 maxZoom: 19
             }).addTo(map);
 
-            createMarkersAndPath();
+            // Start in sequential mode
+            showSequentialView();
+            updateControls();
         }
 
-        function createMarkersAndPath() {
+        function showSequentialView() {
+            isSequentialMode = true;
+            clearMap();
+            currentIndex = 0;
+            renderUpToIndex(currentIndex);
+            updateControls();
+        }
+
+        function showAllView() {
+            isSequentialMode = false;
+            clearMap();
+            createMarkersAndPath(memories);
+            updateControls();
+        }
+
+        function clearMap() {
+            // Remove all markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            // Remove all path segments
+            pathSegments.forEach(segment => map.removeLayer(segment));
+            pathSegments = [];
+
+            // Remove all decorators
+            decorators.forEach(decorator => map.removeLayer(decorator));
+            decorators = [];
+        }
+
+        function renderUpToIndex(index) {
+            clearMap();
+            const memoriesToShow = memories.slice(0, index + 1);
+            createMarkersAndPath(memoriesToShow);
+
+            // Fit bounds to show all displayed points
+            if (memoriesToShow.length > 0) {
+                const bounds = memoriesToShow.map(m => [m.lat, m.lng]);
+                map.fitBounds(bounds, { padding: [100, 100] });
+            }
+        }
+
+        function nextMemory() {
+            if (currentIndex < memories.length - 1) {
+                currentIndex++;
+                renderUpToIndex(currentIndex);
+                updateControls();
+            }
+        }
+
+        function previousMemory() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderUpToIndex(currentIndex);
+                updateControls();
+            }
+        }
+
+        function updateControls() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressInfo = document.getElementById('progressInfo');
+            const viewAllBtn = document.getElementById('viewAllBtn');
+
+            if (isSequentialMode) {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === memories.length - 1;
+                progressInfo.textContent = `${currentIndex + 1} / ${memories.length}`;
+                viewAllBtn.textContent = 'View All';
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+                progressInfo.style.display = 'block';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                progressInfo.style.display = 'none';
+                viewAllBtn.textContent = 'Sequential View';
+            }
+        }
+
+        function createMarkersAndPath(memoriesToRender) {
             const pathCoordinates = [];
-            const pathSegments = [];
-            const segmentsWithNotes = []; // Track which segments have notes
             
             // Group memories by location
             const locationGroups = {};
-            memories.forEach((memory, index) => {
+            memoriesToRender.forEach((memory, index) => {
                 const key = `${memory.lat.toFixed(5)},${memory.lng.toFixed(5)}`;
                 if (!locationGroups[key]) {
                     locationGroups[key] = [];
@@ -401,28 +522,27 @@
                 locationGroups[key].push({ memory, index });
             });
 
-            memories.forEach((memory, index) => {
+            memoriesToRender.forEach((memory, index) => {
                 const position = [memory.lat, memory.lng];
                 pathCoordinates.push(position);
 
                 // Create line segment if not the first point
                 if (index > 0) {
-                    const prevPosition = [memories[index - 1].lat, memories[index - 1].lng];
+                    const prevPosition = [memoriesToRender[index - 1].lat, memoriesToRender[index - 1].lng];
                     const hasNote = memory.journeyNote ? true : false;
                     
                     const segment = L.polyline([prevPosition, position], {
-                        color: hasNote ? '#ff6b9d' : '#667eea', // Pink if has note, purple otherwise
+                        color: hasNote ? '#ff6b9d' : '#667eea',
                         weight: hasNote ? 4 : 3,
                         opacity: 0.8,
                         smoothFactor: 1
                     }).addTo(map);
 
-                    // Add click event if this memory has a journey note
                     if (memory.journeyNote) {
                         segment.on('click', function(e) {
                             const popupContent = `
                                 <div class="journey-popup">
-                                    <div class="journey-popup-title">🚶 Journey: ${memories[index - 1].number} → ${memory.number}</div>
+                                    <div class="journey-popup-title">🚶 Journey: ${memoriesToRender[index - 1].number} → ${memory.number}</div>
                                     ${memory.journeyNote}
                                 </div>
                             `;
@@ -438,11 +558,36 @@
                         segment.on('mouseout', function() {
                             this.setStyle({ weight: 4, opacity: 0.8 });
                         });
-                        
-                        segmentsWithNotes.push({ start: index - 1, end: index });
                     }
 
                     pathSegments.push(segment);
+
+                    // Create arrow
+                    const segmentPath = L.polyline([prevPosition, position], {
+                        color: 'transparent',
+                        weight: 0
+                    }).addTo(map);
+
+                    const decorator = L.polylineDecorator(segmentPath, {
+                        patterns: [
+                            {
+                                offset: '50%',
+                                repeat: 0,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 14,
+                                    polygon: false,
+                                    pathOptions: {
+                                        stroke: true,
+                                        color: hasNote ? '#ff6b9d' : '#667eea',
+                                        weight: 3,
+                                        opacity: 0.9
+                                    }
+                                })
+                            }
+                        ]
+                    }).addTo(map);
+
+                    decorators.push(decorator);
                 }
             });
 
@@ -451,7 +596,6 @@
                 const position = [group[0].memory.lat, group[0].memory.lng];
                 
                 if (group.length === 1) {
-                    // Single marker at this location
                     const memory = group[0].memory;
                     const markerHTML = `
                         <div class="marker-container">
@@ -478,12 +622,14 @@
 
                     markers.push(marker);
                 } else {
-                    // Multiple markers at same location - create cluster
-                    let clusterHTML = '<div class="marker-cluster" id="cluster-' + position[0] + '-' + position[1] + '">';
+                    // Multiple markers at same location - create STACK
+                    const stackId = 'stack-' + position[0].toFixed(5) + '-' + position[1].toFixed(5) + '-' + Date.now();
+                    let stackHTML = `<div class="marker-stack" id="${stackId}">`;
+                    stackHTML += `<div class="stack-count">${group.length}</div>`;
                     
                     group.forEach((item, idx) => {
                         const memory = item.memory;
-                        clusterHTML += `
+                        stackHTML += `
                             <div class="marker-container" data-memory-index="${item.index}">
                                 <img src="${memory.images[0]}" class="custom-marker" alt="${memory.location}">
                                 <div class="marker-number">${memory.number}</div>
@@ -491,10 +637,10 @@
                         `;
                     });
                     
-                    clusterHTML += '</div>';
+                    stackHTML += '</div>';
 
                     const customIcon = L.divIcon({
-                        html: clusterHTML,
+                        html: stackHTML,
                         className: 'custom-marker-wrapper',
                         iconSize: [70, 70],
                         iconAnchor: [35, 35]
@@ -505,71 +651,52 @@
                         title: group[0].memory.location
                     }).addTo(map);
 
-                    // Handle cluster clicks
-                    marker.on('click', (e) => {
-                        const clusterEl = e.target._icon.querySelector('.marker-cluster');
-                        const isExpanded = clusterEl.classList.contains('expanded');
-                        
-                        // Close all other expanded clusters
-                        document.querySelectorAll('.marker-cluster.expanded').forEach(el => {
-                            el.classList.remove('expanded');
-                        });
-                        
-                        if (!isExpanded) {
-                            clusterEl.classList.add('expanded');
-                            
-                            // Add click handlers to individual markers in cluster
-                            setTimeout(() => {
-                                clusterEl.querySelectorAll('.marker-container').forEach(markerDiv => {
-                                    markerDiv.onclick = (evt) => {
+                    marker.off('click');
+
+                    setTimeout(() => {
+                        const stackEl = document.getElementById(stackId);
+                        if (stackEl) {
+                            stackEl.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                const isExpanded = stackEl.classList.contains('expanded');
+
+                                if (currentExpandedStack && currentExpandedStack !== stackEl) {
+                                    currentExpandedStack.classList.remove('expanded');
+                                }
+
+                                if (!isExpanded) {
+                                    stackEl.classList.add('expanded');
+                                    currentExpandedStack = stackEl;
+                                } else {
+                                    stackEl.classList.remove('expanded');
+                                    currentExpandedStack = null;
+                                }
+                            });
+
+                            stackEl.querySelectorAll('.marker-container').forEach(markerDiv => {
+                                markerDiv.addEventListener('click', (evt) => {
+                                    if (stackEl.classList.contains('expanded')) {
                                         evt.stopPropagation();
                                         const memoryIndex = parseInt(markerDiv.getAttribute('data-memory-index'));
-                                        openModal(memories[memoryIndex]);
-                                        clusterEl.classList.remove('expanded');
-                                    };
+                                        openModal(memoriesToRender[memoryIndex]);
+                                    }
                                 });
-                            }, 50);
+                            });
                         }
-                    });
+                    }, 100);
 
                     markers.push(marker);
                 }
             });
 
-            // Create arrows - different colors for segments with notes
-            pathCoordinates.forEach((coord, index) => {
-                if (index > 0) {
-                    const hasNote = segmentsWithNotes.some(seg => seg.start === index - 1 && seg.end === index);
-                    const segmentPath = L.polyline([pathCoordinates[index - 1], coord], {
-                        color: 'transparent',
-                        weight: 0
-                    }).addTo(map);
-
-                    const decorator = L.polylineDecorator(segmentPath, {
-                        patterns: [
-                            {
-                                offset: '50%',
-                                repeat: 0,
-                                symbol: L.Symbol.arrowHead({
-                                    pixelSize: 14,
-                                    polygon: false,
-                                    pathOptions: {
-                                        stroke: true,
-                                        color: hasNote ? '#ff6b9d' : '#667eea', // Pink if has note
-                                        weight: 3,
-                                        opacity: 0.9
-                                    }
-                                })
-                            }
-                        ]
-                    }).addTo(map);
+            map.on('click', () => {
+                if (currentExpandedStack) {
+                    currentExpandedStack.classList.remove('expanded');
+                    currentExpandedStack = null;
                 }
             });
-
-            // Fit map to show all markers
-            if (pathCoordinates.length > 0) {
-                map.fitBounds(pathCoordinates, { padding: [50, 50] });
-            }
         }
 
         function openModal(memory) {
@@ -583,7 +710,6 @@
             modalDate.textContent = memory.date;
             modalNote.textContent = memory.note;
 
-            // Clear and populate images
             modalImages.innerHTML = '';
             memory.images.forEach(imgUrl => {
                 const img = document.createElement('img');
@@ -594,9 +720,24 @@
             });
 
             modal.style.display = 'block';
+
+            if (currentExpandedStack) {
+                currentExpandedStack.classList.remove('expanded');
+                currentExpandedStack = null;
+            }
         }
 
-        // Close modal
+        // Event Listeners
+        document.getElementById('nextBtn').addEventListener('click', nextMemory);
+        document.getElementById('prevBtn').addEventListener('click', previousMemory);
+        document.getElementById('viewAllBtn').addEventListener('click', () => {
+            if (isSequentialMode) {
+                showAllView();
+            } else {
+                showSequentialView();
+            }
+        });
+
         document.querySelector('.close').onclick = function() {
             document.getElementById('memoryModal').style.display = 'none';
         }
@@ -608,8 +749,53 @@
             }
         }
 
-        // Initialize map when page loads
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (isSequentialMode) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    nextMemory();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    previousMemory();
+                }
+            }
+        });
+
         window.onload = initMap;
     </script>
 </body>
 </html>
+```
+
+## Key Features Added:
+
+### 1. **Sequential View (Default)**
+- Shows memories one at a time
+- Click "Next →" to reveal the next memory point and connecting path
+- Click "← Previous" to go back
+- Progress counter shows current position (e.g., "3 / 14")
+- Arrow keys work too (← → or ↑ ↓)
+
+### 2. **View All Mode**
+- Click "View All" button to see the complete journey at once
+- Button changes to "Sequential View" to return to step-by-step mode
+
+### 3. **Separated Data**
+- All memory data is now in `memories.js`
+- Easy to edit and maintain
+- Just update the array in that file
+
+### 4. **Enhanced Controls**
+- Bottom control panel with intuitive buttons
+- Previous/Next buttons auto-disable at start/end
+- Smooth transitions between views
+
+## File Structure:
+```
+your-project/
+├── index.html
+├── memories.js
+└── images/
+    ├── -194.jpg
+    ├── 0.jpg
+    ├── 27.jpg
+    └── ... (all your images)
